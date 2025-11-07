@@ -18,7 +18,7 @@ const Payment = () => {
 
   useEffect(() => {
     const data = localStorage.getItem('bookingData');
-    if (!data) {
+    if (!data || data === "undefined") {
       navigate('/booking');
       return;
     }
@@ -26,7 +26,7 @@ const Payment = () => {
 
     // Check if user is logged in
     const storedUser = localStorage.getItem('user');
-    if (storedUser) {
+    if (storedUser && storedUser !== "undefined") {
       setUser(JSON.parse(storedUser));
     } else {
       setShowAuthModal(true);
@@ -80,6 +80,8 @@ const Payment = () => {
         totalAmount: bookingData.pricing.total,
       };
 
+      console.log('Sending booking payload:', bookingPayload);
+
       const response = await fetch('https://apimatrimony.lytortech.com/api/bookings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -88,10 +90,12 @@ const Payment = () => {
 
       const bookingResponse = await response.json();
 
+      console.log('Booking response:', bookingResponse);
+
       // Initialize Razorpay
       const options = {
-        key: bookingResponse.razorpayKey,
-        amount: bookingResponse.advanceAmount * 100,
+        key: 'rzp_live_BnPhMdUqppmXgD',
+        amount: bookingData.pricing.advance * 100,
         currency: 'INR',
         order_id: bookingResponse.razorpayOrderId,
         name: 'Araku Valley Camping',
@@ -103,27 +107,38 @@ const Payment = () => {
         },
         handler: async function (razorpayResponse: any) {
           // Verify payment
+          const verifyPayload = {
+            razorpayOrderId: razorpayResponse.razorpay_order_id,
+            razorpayPaymentId: razorpayResponse.razorpay_payment_id,
+            razorpaySignature: razorpayResponse.razorpay_signature,
+          };
+
+          console.log('Sending verify payment payload:', verifyPayload);
+
           const verifyResponse = await fetch(
             'https://apimatrimony.lytortech.com/api/bookings/verify-payment',
             {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                razorpayOrderId: razorpayResponse.razorpay_order_id,
-                razorpayPaymentId: razorpayResponse.razorpay_payment_id,
-                razorpaySignature: razorpayResponse.razorpay_signature,
-              }),
+              body: JSON.stringify(verifyPayload),
             }
           );
 
+          if (!verifyResponse.ok) {
+            throw new Error(`Payment verification failed: ${verifyResponse.status} ${verifyResponse.statusText}`);
+          }
+
           const verifyData = await verifyResponse.json();
 
-          if (verifyData.success) {
+          console.log('Verify payment response:', verifyData);
+
+          if (verifyData.bookingStatus === 'CONFIRMED' && verifyData.paymentStatus === 'ADVANCE_PAID') {
             localStorage.setItem('confirmationData', JSON.stringify({
               ...bookingData,
               referenceNumber: bookingResponse.referenceNumber,
               paymentStatus: 'ADVANCE_PAID',
             }));
+            localStorage.removeItem('bookingData');
             navigate('/booking/confirmation');
           } else {
             toast({

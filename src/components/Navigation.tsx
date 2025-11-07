@@ -22,7 +22,8 @@ const Navigation = () => {
     { name: 'Experiences', href: '#experiences' },
     { name: 'Gallery', href: '#gallery' },
     { name: 'Reviews', href: '#testimonials' },
-    { name: 'Contact', href: '#contact' },
+    { name: 'My Bookings', href: '/my-bookings' },
+    { name: 'Contact Us', href: '#contact' },
   ];
 
   return (
@@ -40,7 +41,7 @@ const Navigation = () => {
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link to="/" className="font-display text-2xl md:text-3xl font-bold text-primary">
-              ARAKU VALLEY
+              Dhruva's World
             </Link>
 
             {/* Desktop Navigation */}

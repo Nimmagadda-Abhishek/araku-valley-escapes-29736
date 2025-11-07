@@ -26,7 +26,7 @@ const Footer = () => {
           {/* Brand */}
           <div>
             <Link to="/" className="font-display text-2xl font-bold text-accent">
-              ARAKU VALLEY
+              Dhruva's World
             </Link>
             <p className="mt-4 text-secondary-foreground/80 text-sm">
               Where luxury meets nature
@@ -104,7 +104,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-secondary-foreground/10 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-secondary-foreground/60 text-sm">
-            © 2025 Araku Valley Luxury Camping. All Rights Reserved.
+            © 2025 Dhruva's World. All Rights Reserved.
           </p>
           <div className="flex gap-6 text-sm">
             <a href="#" className="text-secondary-foreground/60 hover:text-accent transition-colors">
