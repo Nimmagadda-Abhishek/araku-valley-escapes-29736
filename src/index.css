@@ -1,0 +1,140 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Luxury Camping Design System - Araku Valley */
+    --background: 36 33% 97%;
+    --foreground: 24 30% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 24 30% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 24 30% 15%;
+
+    --primary: 142 76% 25%;
+    --primary-foreground: 0 0% 100%;
+    
+    --primary-light: 142 60% 35%;
+    --primary-glow: 142 76% 45%;
+
+    --secondary: 24 30% 15%;
+    --secondary-foreground: 36 33% 97%;
+
+    --muted: 36 20% 90%;
+    --muted-foreground: 24 15% 45%;
+
+    --accent: 38 92% 50%;
+    --accent-foreground: 24 30% 15%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 36 20% 85%;
+    --input: 36 20% 90%;
+    --ring: 142 76% 25%;
+
+    --radius: 0.75rem;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(142 76% 25%), hsl(142 76% 45%));
+    --gradient-luxury: linear-gradient(135deg, hsl(142 76% 25%), hsl(38 92% 50%));
+    --gradient-subtle: linear-gradient(180deg, hsl(36 33% 97%), hsl(0 0% 100%));
+    --gradient-overlay: linear-gradient(180deg, hsl(24 30% 15% / 0.7), hsl(24 30% 15% / 0.3));
+
+    /* Shadows */
+    --shadow-soft: 0 4px 20px -2px hsl(24 30% 15% / 0.08);
+    --shadow-medium: 0 8px 30px -4px hsl(24 30% 15% / 0.12);
+    --shadow-strong: 0 20px 50px -10px hsl(24 30% 15% / 0.2);
+    --shadow-glow: 0 0 40px hsl(142 76% 45% / 0.3);
+
+    /* Glass effect */
+    --glass-bg: hsl(0 0% 100% / 0.7);
+    --glass-border: hsl(0 0% 100% / 0.2);
+  }
+
+  .dark {
+    --background: 24 30% 15%;
+    --foreground: 36 33% 97%;
+    --card: 24 25% 18%;
+    --card-foreground: 36 33% 97%;
+    --popover: 24 25% 18%;
+    --popover-foreground: 36 33% 97%;
+    --primary: 142 76% 45%;
+    --primary-foreground: 24 30% 15%;
+    --secondary: 24 20% 25%;
+    --secondary-foreground: 36 33% 97%;
+    --muted: 24 15% 30%;
+    --muted-foreground: 36 20% 70%;
+    --accent: 38 92% 50%;
+    --accent-foreground: 24 30% 15%;
+    --border: 24 20% 25%;
+    --input: 24 20% 25%;
+    --ring: 142 76% 45%;
+  }
+}
+
+@layer base {
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+  
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-family: 'Inter', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: 'Playfair Display', serif;
+  }
+
+  .glass-effect {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+  }
+
+  .text-gradient {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .animate-bounce-slow {
+    animation: bounce 2s infinite;
+  }
+
+  .parallax {
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
