@@ -71,7 +71,7 @@ const BookingDetailsView = () => {
     <div className="min-h-screen bg-gradient-to-b from-[hsl(36,33%,97%)] to-white">
       <Navigation />
 
-      <div className="pt-32 pb-24 container mx-auto px-4">
+      <div className="pt-20 md:pt-32 pb-24 container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
           <Button
             variant="ghost"

@@ -234,25 +234,25 @@ const MyBookingsPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-[hsl(36,33%,97%)] to-white">
       {/* Header */}
-      <div className="bg-gradient-to-r from-[hsl(142,76%,25%)] to-[hsl(142,76%,35%)] text-white py-16 px-6">
+      <div className="bg-gradient-to-r from-[hsl(142,76%,25%)] to-[hsl(142,76%,35%)] text-white py-8 md:py-16 px-4 md:px-6">
         <div className="max-w-6xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-display font-bold mb-4">
+          <h1 className="text-2xl md:text-4xl lg:text-5xl font-display font-bold mb-2 md:mb-4">
             My Bookings
           </h1>
-          <p className="text-lg opacity-90">
+          <p className="text-sm md:text-lg opacity-90">
             Manage and track all your camping reservations
           </p>
         </div>
       </div>
 
       {/* Filter Tabs */}
-      <div className="max-w-6xl mx-auto px-6 -mt-8">
+      <div className="max-w-6xl mx-auto px-4 md:px-6 -mt-8">
         <div className="bg-white rounded-xl shadow-md p-2 flex flex-wrap gap-2">
           {['all', 'confirmed', 'pending', 'cancelled'].map((tab) => (
             <button
               key={tab}
               onClick={() => setFilter(tab)}
-              className={`px-6 py-3 rounded-lg font-medium transition-all ${
+              className={`px-4 md:px-6 py-2 md:py-3 rounded-lg font-medium transition-all text-sm md:text-base ${
                 filter === tab
                   ? 'bg-[hsl(142,76%,25%)] text-white shadow-md'
                   : 'text-[hsl(24,30%,15%)] hover:bg-[hsl(36,20%,90%)]'
@@ -265,7 +265,7 @@ const MyBookingsPage = () => {
       </div>
 
       {/* Bookings List */}
-      <div className="max-w-6xl mx-auto px-6 py-12">
+      <div className="max-w-6xl mx-auto px-4 md:px-6 py-8 md:py-12">
         {filteredBookings.length === 0 ? (
           <div className="text-center py-16">
             <div className="w-24 h-24 bg-[hsl(36,20%,90%)] rounded-full flex items-center justify-center mx-auto mb-6">
