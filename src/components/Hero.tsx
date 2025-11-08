@@ -40,23 +40,23 @@ const Hero = () => {
           className="w-16 h-0.5 bg-accent mb-6"
         />
 
-        <motion.h1
+        <motion.h3
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="font-display text-5xl md:text-7xl lg:text-8xl font-bold text-primary-foreground mb-4"
+          className="font-display text-2xl md:text-3xl lg:text-4xl font-bold text-primary-foreground mb-4"
         >
-          Experience Araku Valley
-        </motion.h1>
+          Experience peaceful camping at Araku Peace Camping Tents,
+        </motion.h3>
 
-        <motion.h2
+        <motion.h4
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="font-display text-3xl md:text-5xl lg:text-6xl text-primary-foreground mb-6"
+          className="font-display text-lg md:text-xl lg:text-2xl text-primary-foreground mb-6"
         >
-          Under The Stars
-        </motion.h2>
+          Surrounded by the greenery of Araku Valley near Ranajilleda Waterfalls.
+        </motion.h4>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -64,7 +64,7 @@ const Hero = () => {
           transition={{ duration: 0.8, delay: 0.8 }}
           className="text-lg md:text-xl text-primary-foreground/90 mb-12 max-w-2xl tracking-wide"
         >
-          Premium Luxury Camping | Authentic Experiences | Unforgettable Memories
+           Perfect for nature lovers and adventurers.
         </motion.p>
 
         <motion.div
@@ -78,13 +78,13 @@ const Hero = () => {
               size="lg"
               className="bg-gradient-to-r from-primary to-primary-glow hover:shadow-glow text-lg px-8 py-6 transition-all duration-300 transform hover:scale-105"
             >
-              Start Your Journey
+              Book Now
             </Button>
           </Link>
           <Button
             size="lg"
             variant="outline"
-            className="border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-secondary text-lg px-8 py-6 transition-all duration-300"
+            className="border-2 border-white text-white bg-black/50 hover:bg-white hover:text-black text-lg px-8 py-6 transition-all duration-300"
           >
             <Play className="mr-2" size={20} />
             Watch Story

@@ -18,4 +18,5 @@ export default defineConfig(({ mode }) => ({
   build: {
     outDir: "dist",
   },
+  assetsInclude: ["**/*.PNG"],
 }));

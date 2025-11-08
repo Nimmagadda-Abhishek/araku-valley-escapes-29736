@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { Mountain, Coffee, TreePine } from 'lucide-react';
+import { Shield, Car, Toilet, Coffee, Flame, Mountain } from 'lucide-react';
 import aboutImage from '@/assets/about-araku.jpg';
 
 const About = () => {
@@ -9,9 +9,12 @@ const About = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   const features = [
-    { icon: Mountain, text: 'Spectacular Mountain Views' },
-    { icon: Coffee, text: 'Famous Coffee Plantations' },
-    { icon: TreePine, text: 'Untouched Natural Beauty' },
+    { icon: Shield, text: '24*7 cctv camera Security' },
+    { icon: Car, text: 'large parking area' },
+    { icon: Toilet, text: '3 toilet rooms for women 2 toilet rooms for men' },
+    { icon: Coffee, text: 'tea coffe green tea and black tea' },
+    { icon: Flame, text: 'fire camps' },
+    { icon: Mountain, text: 'Beautiful araku nature view' },
   ];
 
   return (
@@ -40,13 +43,14 @@ const About = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <span className="text-primary text-sm font-semibold tracking-widest uppercase">
-              DISCOVER ARAKU
+              Discovery araku
             </span>
             <h2 className="font-display text-4xl md:text-5xl font-bold mt-4 mb-6 text-foreground">
               Where Nature Meets Luxury
             </h2>
             <p className="text-muted-foreground text-lg leading-relaxed mb-8">
-              Nestled 1000 meters above sea level in the Eastern Ghats, Araku Valley is a pristine paradise known for its coffee plantations, tribal culture, and breathtaking vistas. Our premium camping resort seamlessly blends luxury with nature, offering you an escape into tranquility without compromising comfort.
+              Experience the calm of Araku Valley at Araku Peace Camping Tents — where nature, peace, and comfort come together.
+Escape the noise, breathe fresh air, and live the Araku dream.
             </p>
 
             <div className="space-y-4">

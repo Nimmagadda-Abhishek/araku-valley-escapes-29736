@@ -12,6 +12,18 @@ import gallerySunrise from '@/assets/gallery-sunrise.jpg';
 import heroImage from '@/assets/hero-araku.jpg';
 import aboutImage from '@/assets/about-araku.jpg';
 import ctaBackground from '@/assets/cta-background.jpg';
+import image02 from '@/assets/02.PNG';
+import image03 from '@/assets/03.PNG';
+import image04 from '@/assets/04.PNG';
+import image05 from '@/assets/05.PNG';
+import image06 from '@/assets/06.PNG';
+import image07 from '@/assets/07.PNG';
+import image08 from '@/assets/08.PNG';
+import image09 from '@/assets/09.PNG';
+import image10 from '@/assets/10.PNG';
+import image11 from '@/assets/11.PNG';
+import image12 from '@/assets/12.PNG';
+import image13 from '@/assets/13.PNG';
 
 const Gallery = () => {
   const ref = useRef(null);
@@ -20,14 +32,18 @@ const Gallery = () => {
 
   const images = [
     { src: aboutImage, caption: 'Luxury Tent Interior' },
-    { src: gallerySunrise, caption: 'Sunrise Over Valley' },
-    { src: galleryBonfire, caption: 'Bonfire Gathering' },
-    { src: galleryCoffee, caption: 'Coffee Plantation' },
-    { src: galleryWaterfall, caption: 'Waterfall Trek' },
-    { src: galleryCuisine, caption: 'Tribal Cuisine' },
-    { src: galleryCouple, caption: 'Morning Coffee' },
-    { src: ctaBackground, caption: 'Starry Night' },
-    { src: heroImage, caption: 'Valley Panorama' },
+    { src: image02, caption: 'Araku Valley Scene 02' },
+    { src: image03, caption: 'Araku Valley Scene 03' },
+    { src: image04, caption: 'Araku Valley Scene 04' },
+    { src: image05, caption: 'Araku Valley Scene 05' },
+    { src: image06, caption: 'Araku Valley Scene 06' },
+    { src: image07, caption: 'Araku Valley Scene 07' },
+    { src: image08, caption: 'Araku Valley Scene 08' },
+    { src: image09, caption: 'Araku Valley Scene 09' },
+    { src: image10, caption: 'Araku Valley Scene 10' },
+    { src: image11, caption: 'Araku Valley Scene 11' },
+    { src: image12, caption: 'Araku Valley Scene 12' },
+    { src: image13, caption: 'Araku Valley Scene 13' },
   ];
 
   return (

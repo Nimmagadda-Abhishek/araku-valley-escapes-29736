@@ -41,7 +41,7 @@ const Navigation = () => {
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link to="/" className="font-display text-2xl md:text-3xl font-bold text-primary">
-              Dhruva's World
+              Araku Peace Camping Tents
             </Link>
 
             {/* Desktop Navigation */}
@@ -62,7 +62,7 @@ const Navigation = () => {
             <div className="hidden md:block">
               <Link to="/booking">
                 <Button className="bg-gradient-to-r from-primary to-primary-glow hover:shadow-glow transition-all duration-300">
-                  Book Your Escape
+                  Book Now
                 </Button>
               </Link>
             </div>
@@ -105,7 +105,7 @@ const Navigation = () => {
               ))}
               <Link to="/booking" onClick={() => setIsMobileMenuOpen(false)}>
                 <Button size="lg" className="bg-gradient-to-r from-primary to-primary-glow">
-                  Book Your Escape
+                  Book Now
                 </Button>
               </Link>
             </div>
