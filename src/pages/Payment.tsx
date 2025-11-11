@@ -1,19 +1,39 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import Navigation from '@/components/Navigation';
-import { ArrowLeft, LogIn } from 'lucide-react';
-import { signInWithPopup } from 'firebase/auth';
-import { auth, googleProvider } from '@/lib/firebase';
+import { ArrowLeft } from 'lucide-react';
+import { loggedFetch } from '@/lib/utils';
+
+interface BookingData {
+  customerDetails: {
+    name: string;
+    phone: string;
+    email: string;
+  };
+  checkIn: string;
+  checkOut: string;
+  selectedTents: number[];
+  guests: number;
+  pricing: {
+    total: number;
+    advance: number;
+    balance: number;
+  };
+}
+
+interface RazorpayResponse {
+  razorpay_order_id: string;
+  razorpay_payment_id: string;
+  razorpay_signature: string;
+}
 
 const Payment = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [bookingData, setBookingData] = useState<any>(null);
-  const [user, setUser] = useState<any>(null);
-  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [bookingData, setBookingData] = useState<BookingData | null>(null);
+
   const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
@@ -25,64 +45,62 @@ const Payment = () => {
     setBookingData(JSON.parse(data));
 
     // Check if user is logged in
-    const storedUser = localStorage.getItem('user');
-    if (storedUser && storedUser !== "undefined") {
-      setUser(JSON.parse(storedUser));
-    } else {
-      setShowAuthModal(true);
-    }
+    // const storedUser = localStorage.getItem('user');
+    // if (storedUser && storedUser !== "undefined") {
+    //   setUser(JSON.parse(storedUser));
+    // } else {
+    //   setShowAuthModal(true);
+    // }
   }, [navigate]);
 
-  const handleGoogleSignIn = async () => {
-    try {
-      const result = await signInWithPopup(auth, googleProvider);
-      const userData = {
-        uid: result.user.uid,
-        name: result.user.displayName,
-        email: result.user.email,
-      };
-      setUser(userData);
-      localStorage.setItem('user', JSON.stringify(userData));
-      setShowAuthModal(false);
-      toast({
-        title: 'Signed In Successfully',
-        description: `Welcome, ${userData.name}!`,
-      });
-    } catch (error: any) {
-      toast({
-        title: 'Sign In Failed',
-        description: error.message,
-        variant: 'destructive',
-      });
-    }
-  };
+  // const handleGoogleSignIn = async () => {
+  //   try {
+  //     const result = await signInWithPopup(auth, googleProvider);
+  //     const userData = {
+  //       uid: result.user.uid,
+  //       name: result.user.displayName,
+  //       email: result.user.email,
+  //     };
+  //     setUser(userData);
+  //     localStorage.setItem('user', JSON.stringify(userData));
+  //     setShowAuthModal(false);
+  //     toast({
+  //       title: 'Signed In Successfully',
+  //       description: `Welcome, ${userData.name}!`,
+  //     });
+  //   } catch (error: any) {
+  //     toast({
+  //       title: 'Sign In Failed',
+  //       description: error.message,
+  //       variant: 'destructive',
+  //     });
+  //   }
+  // };
 
   const handlePayment = async () => {
-    if (!user) {
-      setShowAuthModal(true);
-      return;
-    }
+    // if (!user) {
+    //   setShowAuthModal(true);
+    //   return;
+    // }
 
     setIsProcessing(true);
 
     try {
       // Create booking
       const bookingPayload = {
-        firebaseUid: user.uid,
+        firebaseUid: null,
         customerName: bookingData.customerDetails.name,
         customerPhone: bookingData.customerDetails.phone,
         customerEmail: bookingData.customerDetails.email,
-        bookingDate: bookingData.checkIn,
+        checkIn: bookingData.checkIn,
+        checkOut: bookingData.checkOut,
         tentNumbers: bookingData.selectedTents,
         numberOfGuests: bookingData.guests,
-        advanceAmount: bookingData.pricing.advance,
-        remainingAmount: bookingData.pricing.balance,
-        totalAmount: bookingData.pricing.total,
       };
 
       console.log('Sending booking payload:', bookingPayload);
 
-      const response = await fetch('https://apimatrimony.lytortech.com/api/bookings', {
+      const response = await loggedFetch('https://apimatrimony.lytortech.com/api/bookings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(bookingPayload),
@@ -105,7 +123,7 @@ const Payment = () => {
           email: bookingData.customerDetails.email,
           contact: bookingData.customerDetails.phone,
         },
-        handler: async function (razorpayResponse: any) {
+        handler: async function (razorpayResponse: RazorpayResponse) {
           // Verify payment
           const verifyPayload = {
             razorpayOrderId: razorpayResponse.razorpay_order_id,
@@ -115,7 +133,7 @@ const Payment = () => {
 
           console.log('Sending verify payment payload:', verifyPayload);
 
-          const verifyResponse = await fetch(
+          const verifyResponse = await loggedFetch(
             'https://apimatrimony.lytortech.com/api/bookings/verify-payment',
             {
               method: 'POST',
@@ -150,9 +168,10 @@ const Payment = () => {
         },
       };
 
-      const razorpay = new (window as any).Razorpay(options);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const razorpay = new (window as any).Razorpay(options) as any;
       razorpay.open();
-    } catch (error: any) {
+    } catch (error: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
       toast({
         title: 'Payment Failed',
         description: error.message,
@@ -168,7 +187,7 @@ const Payment = () => {
       <Navigation />
       
       {/* Auth Modal */}
-      <AnimatePresence>
+      {/* <AnimatePresence>
         {showAuthModal && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -187,7 +206,7 @@ const Payment = () => {
               <p className="text-sm text-muted-foreground mb-8">
                 We need your email for booking confirmation
               </p>
-              
+
               <Button
                 onClick={handleGoogleSignIn}
                 size="lg"
@@ -203,7 +222,7 @@ const Payment = () => {
             </motion.div>
           </motion.div>
         )}
-      </AnimatePresence>
+      </AnimatePresence> */}
 
       <div className="pt-32 pb-24 container mx-auto px-4">
         {/* Progress Indicator */}
@@ -255,13 +274,13 @@ const Payment = () => {
                     </p>
                   </div>
 
-                  {user && (
+                  {/* {user && (
                     <div className="bg-primary/10 rounded-lg p-4">
                       <p className="text-sm">
                         <span className="font-semibold">Signed in as:</span> {user.name} ({user.email})
                       </p>
                     </div>
-                  )}
+                  )} */}
 
                   <div className="flex gap-4 pt-4">
                     <Button

@@ -1,4 +1,4 @@
-import { Toaster } from "@/components/ui/toaster";
+ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -11,6 +11,11 @@ import BookingDetailsView from "./pages/BookingDetailsView";
 import Payment from "./pages/Payment";
 import Confirmation from "./pages/Confirmation";
 import MyBookings from "./pages/MyBookings";
+import TermsAndConditions from "./pages/TermsAndConditions";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import BookingPolicy from "./pages/BookingPolicy";
+import CancellationAndRefundPolicy from "./pages/CancellationAndRefundPolicy";
+import ContactUs from "./pages/ContactUs";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,6 +35,11 @@ const App = () => (
           <Route path="/booking/payment" element={<Payment />} />
           <Route path="/booking/confirmation" element={<Confirmation />} />
           <Route path="/my-bookings" element={<MyBookings />} />
+          <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/booking-policy" element={<BookingPolicy />} />
+          <Route path="/cancellation-and-refund-policy" element={<CancellationAndRefundPolicy />} />
+          <Route path="/contact-us" element={<ContactUs />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

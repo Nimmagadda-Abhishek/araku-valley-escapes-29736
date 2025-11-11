@@ -10,7 +10,7 @@ const Footer = () => {
     { name: 'Experiences', href: '#experiences' },
     { name: 'Gallery', href: '#gallery' },
     { name: 'FAQs', href: '#faqs' },
-    { name: 'Contact', href: '#contact' },
+    { name: 'Contact Us', href: '/contact-us' },
   ];
 
   const socialLinks = [
@@ -51,12 +51,21 @@ const Footer = () => {
             <ul className="space-y-2">
               {quickLinks.map((link) => (
                 <li key={link.name}>
-                  <a
-                    href={link.href}
-                    className="text-secondary-foreground/80 hover:text-accent transition-colors text-sm"
-                  >
-                    {link.name}
-                  </a>
+                  {link.href.startsWith('/') ? (
+                    <Link
+                      to={link.href}
+                      className="text-secondary-foreground/80 hover:text-accent transition-colors text-sm"
+                    >
+                      {link.name}
+                    </Link>
+                  ) : (
+                    <a
+                      href={link.href}
+                      className="text-secondary-foreground/80 hover:text-accent transition-colors text-sm"
+                    >
+                      {link.name}
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>
@@ -72,11 +81,11 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-2">
                 <Phone size={16} className="flex-shrink-0 text-accent" />
-                <span className="text-secondary-foreground/80">+91-XXXXX-XXXXX</span>
+                <span className="text-secondary-foreground/80">+91-7670920235</span>
               </li>
               <li className="flex items-center gap-2">
                 <Mail size={16} className="flex-shrink-0 text-accent" />
-                <span className="text-secondary-foreground/80">hello@arakucamp.com</span>
+                <span className="text-secondary-foreground/80">dhruvasworldhelp@gmail.com</span>
               </li>
               <li className="text-secondary-foreground/80">24/7 Support</li>
             </ul>
@@ -107,15 +116,15 @@ const Footer = () => {
             © 2025 Dhruva's World. All Rights Reserved.
           </p>
           <div className="flex gap-6 text-sm">
-            <a href="#" className="text-secondary-foreground/60 hover:text-accent transition-colors">
+            <Link to="/privacy-policy" className="text-secondary-foreground/60 hover:text-accent transition-colors">
               Privacy Policy
-            </a>
-            <a href="#" className="text-secondary-foreground/60 hover:text-accent transition-colors">
+            </Link>
+            <Link to="/terms-and-conditions" className="text-secondary-foreground/60 hover:text-accent transition-colors">
               Terms & Conditions
-            </a>
-            <a href="#" className="text-secondary-foreground/60 hover:text-accent transition-colors">
+            </Link>
+            <Link to="/cancellation-and-refund-policy" className="text-secondary-foreground/60 hover:text-accent transition-colors">
               Refund Policy
-            </a>
+            </Link>
           </div>
         </div>
       </div>

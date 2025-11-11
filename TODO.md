@@ -1,11 +1,9 @@
-# TODO: Update About Section Features
+# TODO: Disable Google Sign-In for Payment Page
 
-- [x] Update imports in src/components/About.tsx to include new icons: Shield, Car, Toilet, Flame
-- [x] Replace the features array in src/components/About.tsx with the new list:
-  - 24*7 cctv camera Security
-  - large parking area
-  - 3 toilet rooms for women 2 toilet rooms for men
-  - tea coffe green tea and black tea
-  - fire camps
-  - Beautiful araku nature view
-- [x] Verify the changes by running the app if needed
+- [ ] Comment out user-related state and effects in Payment.tsx
+- [ ] Comment out the handleGoogleSignIn function
+- [ ] Comment out the auth modal display logic
+- [ ] Modify handlePayment to remove user check and set firebaseUid to null
+- [ ] Comment out the Google sign-in button in the auth modal
+- [ ] Test the payment flow to ensure it works without sign-in
+- [ ] Verify that booking creation and payment processing still function correctly

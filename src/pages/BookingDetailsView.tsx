@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import Navigation from '@/components/Navigation';
 import { ArrowLeft, Calendar, MapPin, Users, CreditCard, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+import { loggedFetch } from '@/lib/utils';
 
 const BookingDetailsView = () => {
   const navigate = useNavigate();

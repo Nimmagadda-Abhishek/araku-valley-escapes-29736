@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import Navigation from '@/components/Navigation';
+import { loggedFetch } from '@/lib/utils';
 
 const Booking = () => {
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ const Booking = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch(`https://apimatrimony.lytortech.com/api/availability/${checkIn}`);
+      const response = await loggedFetch(`https://apimatrimony.lytortech.com/api/availability/${checkIn}?checkOut=${checkOut}&numberOfTents=${guests}`);
       const data = await response.json();
 
       localStorage.setItem('bookingData', JSON.stringify({
@@ -143,7 +144,7 @@ const Booking = () => {
             <div>
               <Label htmlFor="guests" className="text-base mb-2 flex items-center gap-2">
                 <Users size={18} className="text-primary" />
-                Number of Guests
+                Number of Tents
               </Label>
               <Select value={guests} onValueChange={setGuests}>
                 <SelectTrigger className="text-base">
@@ -152,10 +153,10 @@ const Booking = () => {
                 <SelectContent>
                   {[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
                     <SelectItem key={num} value={String(num)}>
-                      {num} {num === 1 ? 'Guest' : 'Guests'}
+                      {num} {num === 1 ? 'Tent' : 'Tents'}
                     </SelectItem>
                   ))}
-                  <SelectItem value="9">8+ Guests</SelectItem>
+                  <SelectItem value="9">8+ Tents</SelectItem>
                 </SelectContent>
               </Select>
             </div>

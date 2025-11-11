@@ -46,12 +46,25 @@ const SelectTents = () => {
 
   const calculateTotal = () => {
     if (!bookingData) return { subtotal: 0, tax: 0, total: 0, advance: 0, balance: 0 };
-    
+
+    // Use pricing from API if available (when checkOut was provided)
+    if (bookingData.availabilityData?.totalAmount) {
+      return {
+        subtotal: bookingData.availabilityData.totalAmount / 1.18, // Remove tax
+        tax: bookingData.availabilityData.totalAmount - (bookingData.availabilityData.totalAmount / 1.18),
+        total: bookingData.availabilityData.totalAmount,
+        advance: bookingData.availabilityData.advanceAmount,
+        balance: bookingData.availabilityData.remainingAmount,
+        nights: bookingData.availabilityData.nights,
+      };
+    }
+
+    // Fallback to local calculation if API pricing not available
     const checkIn = new Date(bookingData.checkIn);
     const checkOut = new Date(bookingData.checkOut);
     const nights = Math.ceil((checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24));
     const tentPrice = 2250;
-    
+
     const subtotal = tentPrice * selectedTents.length * nights;
     const tax = subtotal * 0.18;
     const total = subtotal + tax;

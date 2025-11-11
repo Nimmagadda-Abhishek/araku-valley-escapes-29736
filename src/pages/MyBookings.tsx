@@ -8,6 +8,7 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Textarea } from '../components/ui/textarea';
 import { Label } from '../components/ui/label';
+import { loggedFetch } from '../lib/utils';
 
 // Razorpay types
 interface RazorpayOptions {
@@ -80,7 +81,7 @@ const MyBookingsPage = () => {
   const fetchBookings = async () => {
     try {
       setLoading(true);
-      const response = await fetch(
+      const response = await loggedFetch(
         `https://apimatrimony.lytortech.com/api/bookings/user/${firebaseUid}`,
         {
           headers: {
@@ -175,7 +176,7 @@ const MyBookingsPage = () => {
         customerEmail: bookings.find(b => b.id === supportForm.bookingId)?.customerEmail,
       };
 
-      const response = await fetch('https://b0fda21e018f.ngrok-free.app/api/support', {
+      const response = await loggedFetch('https://b0fda21e018f.ngrok-free.app/api/support', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(supportPayload),
