@@ -117,7 +117,7 @@ const Payment = () => {
 
       // Initialize Razorpay
       const options = {
-        key: 'rzp_live_BnPhMdUqppmXgD',
+        key: 'rzp_live_RejsUkXNc69HrM',
         amount: bookingData.pricing.advance * 100,
         currency: 'INR',
         order_id: bookingResponse.razorpayOrderId,
