@@ -12,12 +12,50 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 
+interface Tent {
+  tentNumber: string;
+  status: string;
+}
+
+interface AvailabilityData {
+  tents: Tent[];
+  availableTents: number;
+  bookedTents: number;
+  totalTents: number;
+  totalAmount?: number;
+  advanceAmount?: number;
+  remainingAmount?: number;
+  nights: number;
+  totalAmountPerTent?: number;
+  advanceAmountPerTent?: number;
+  remainingAmountPerTent?: number;
+  pricingNote?: string;
+}
+
+interface Pricing {
+  subtotal: number;
+  tax: number;
+  total: number;
+  advance: number;
+  balance: number;
+  nights: number;
+}
+
+interface BookingData {
+  checkIn: string;
+  checkOut: string;
+  guests: number;
+  availabilityData?: AvailabilityData;
+  selectedTents?: string[];
+  pricing?: Pricing;
+}
+
 const SelectTents = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [selectedTents, setSelectedTents] = useState<string[]>([]);
-  const [bookingData, setBookingData] = useState<any>(null);
-  const [tents, setTents] = useState<any[]>([]);
+  const [bookingData, setBookingData] = useState<BookingData | null>(null);
+  const [tents, setTents] = useState<Tent[]>([]);
 
   useEffect(() => {
     const data = localStorage.getItem('bookingData');
@@ -47,7 +85,23 @@ const SelectTents = () => {
   const calculateTotal = () => {
     if (!bookingData) return { subtotal: 0, tax: 0, total: 0, advance: 0, balance: 0 };
 
-    // Use pricing from API if available (when checkOut was provided)
+    // Use per-tent pricing from API if available
+    if (bookingData.availabilityData?.totalAmountPerTent) {
+      const perTentTotal = bookingData.availabilityData.totalAmountPerTent;
+      const perTentAdvance = bookingData.availabilityData.advanceAmountPerTent || perTentTotal * 0.5;
+      const perTentBalance = bookingData.availabilityData.remainingAmountPerTent || perTentTotal - perTentAdvance;
+
+      return {
+        subtotal: perTentTotal * selectedTents.length,
+        tax: 0, // Assuming tax is included in the per-tent pricing
+        total: perTentTotal * selectedTents.length,
+        advance: perTentAdvance * selectedTents.length,
+        balance: perTentBalance * selectedTents.length,
+        nights: bookingData.availabilityData.nights,
+      };
+    }
+
+    // Use total pricing from API if available (legacy support)
     if (bookingData.availabilityData?.totalAmount) {
       return {
         subtotal: bookingData.availabilityData.totalAmount / 1.18, // Remove tax
@@ -66,12 +120,11 @@ const SelectTents = () => {
     const tentPrice = 2250;
 
     const subtotal = tentPrice * selectedTents.length * nights;
-    const tax = subtotal * 0.18;
-    const total = subtotal + tax;
+    const total = subtotal;
     const advance = total * 0.5;
     const balance = total - advance;
 
-    return { subtotal, tax, total, advance, balance, nights };
+    return { subtotal, total, advance, balance, nights };
   };
 
   const handleContinue = () => {
@@ -175,6 +228,9 @@ const SelectTents = () => {
               <p className="text-xs text-muted-foreground">Total: {bookingData.availabilityData.totalTents} tents in the resort</p>
             </div>
           )}
+
+          {/* Pricing Details */}
+          
 
           {/* Legend */}
           <div className="bg-card rounded-lg p-6 mb-8 flex flex-wrap gap-6">
@@ -282,10 +338,7 @@ const SelectTents = () => {
                     <span className="text-muted-foreground">Tent Price:</span>
                     <span>₹{pricing.subtotal.toLocaleString()}</span>
                   </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Tax (18%):</span>
-                    <span>₹{pricing.tax.toLocaleString()}</span>
-                  </div>
+
                 </div>
 
                 <div className="flex justify-between font-bold text-lg mt-4 mb-4">

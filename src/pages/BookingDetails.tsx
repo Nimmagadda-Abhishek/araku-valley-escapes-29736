@@ -255,34 +255,26 @@ const BookingDetails = () => {
                     </div>
 
                     <div className="border-t border-border pt-3 mt-4">
-                      <div className="flex justify-between mb-2">
-                        <span className="text-muted-foreground">Subtotal:</span>
-                        <span>₹{bookingData.pricing.subtotal.toLocaleString()}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Taxes & Fees:</span>
-                        <span>₹{bookingData.pricing.tax.toLocaleString()}</span>
-                      </div>
-                    </div>
-
-                    <div className="border-t border-border pt-3 mt-4">
                       <div className="flex justify-between font-bold text-lg mb-3">
-                        <span>Total:</span>
-                        <span className="text-primary">₹{bookingData.pricing.total.toLocaleString()}</span>
+                        <span>Total per Tent:</span>
+                        <span className="text-primary">₹{bookingData.pricing?.totalAmountPerTent?.toLocaleString()}</span>
                       </div>
                       <div className="bg-muted/50 rounded-lg p-3 space-y-1">
                         <div className="flex justify-between text-xs">
-                          <span>Advance (50%):</span>
+                          <span>Advance per Tent (50%):</span>
                           <span className="font-semibold text-primary">
-                            ₹{bookingData.pricing.advance.toLocaleString()}
+                            ₹{bookingData.pricing?.advanceAmountPerTent?.toLocaleString()}
                           </span>
                         </div>
                         <div className="flex justify-between text-xs">
-                          <span>Balance (50%):</span>
+                          <span>Balance per Tent (50%):</span>
                           <span className="font-semibold">
-                            ₹{bookingData.pricing.balance.toLocaleString()}
+                            ₹{bookingData.pricing?.remainingAmountPerTent?.toLocaleString()}
                           </span>
                         </div>
+                      </div>
+                      <div className="mt-3 text-xs text-muted-foreground">
+                        {bookingData.pricing?.pricingNote}
                       </div>
                     </div>
                   </div>

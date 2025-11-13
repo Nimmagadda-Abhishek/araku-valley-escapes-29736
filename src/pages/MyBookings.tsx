@@ -48,7 +48,7 @@ const MyBookingsPage = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [bookings, setBookings] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState('all');
   const [firebaseUid, setFirebaseUid] = useState(null);
@@ -61,22 +61,22 @@ const MyBookingsPage = () => {
 
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        setFirebaseUid(user.uid);
-      } else {
-        setError('Please log in to view your bookings.');
-        setLoading(false);
-      }
-    });
-    return unsubscribe;
-  }, []);
+   const unsubscribe = auth.onAuthStateChanged((user) => {
+     if (user) {
+       setFirebaseUid(user.uid);
+     } else {
+       setError('Please log in to view your bookings.');
+       setLoading(false);
+     }
+   });
+   return unsubscribe;
+   }, []);
 
-  useEffect(() => {
-    if (firebaseUid) {
-      fetchBookings();
-    }
-  }, [firebaseUid]);
+ useEffect(() => {
+   if (firebaseUid) {
+     fetchBookings();
+   }
+ }, [firebaseUid]);
 
   const fetchBookings = async () => {
     try {
