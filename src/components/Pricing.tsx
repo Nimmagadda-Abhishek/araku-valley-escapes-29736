@@ -16,8 +16,6 @@ const Pricing = () => {
       features: [
         'Accommodates 2 persons',
         'Premium tent with mountain view',
-        'Breakfast & dinner included',
-        'Evening bonfire access',
         'Guided morning nature walk',
       ],
       featured: false,
@@ -28,11 +26,8 @@ const Pricing = () => {
       features: [
         'Accommodates 3 persons',
         'Deluxe tent with panoramic views',
-        'All meals + evening snacks',
-        'Private bonfire arrangement',
         'Sunrise trek + coffee tour',
         'Photography session',
-        'Special tribal performance',
       ],
       featured: true,
     },
@@ -110,7 +105,7 @@ const Pricing = () => {
           transition={{ duration: 0.6, delay: 0.6 }}
           className="text-center text-muted-foreground text-sm mt-8"
         >
-          Extra guest: ₹500/night | Check-in: 2 PM | Check-out: 11 AM
+          Extra guest: ₹500/night | Check-in: 4 PM | Check-out: 9 AM
         </motion.p>
       </div>
     </section>

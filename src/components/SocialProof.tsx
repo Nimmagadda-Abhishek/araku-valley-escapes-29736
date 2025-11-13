@@ -9,7 +9,7 @@ const SocialProof = () => {
 
   const stats = [
     { icon: Tent, value: 50, label: 'Luxury Tents', suffix: '+' },
-    { icon: Users, value: 500, label: 'Happy Travelers', suffix: '+' },
+    { icon: Users, value: 500, label: 'Happy Customers', suffix: '+' },
     { icon: Star, value: 4.9, label: 'Guest Rating', suffix: '/5' },
   ];
 

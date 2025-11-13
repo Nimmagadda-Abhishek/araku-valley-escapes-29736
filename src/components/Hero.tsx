@@ -81,14 +81,16 @@ const Hero = () => {
               Book Now
             </Button>
           </Link>
-          <Button
-            size="lg"
-            variant="outline"
-            className="border-2 border-white text-white bg-black/50 hover:bg-white hover:text-black text-lg px-8 py-6 transition-all duration-300"
-          >
-            <Play className="mr-2" size={20} />
-            Watch Story
-          </Button>
+          <a href="https://www.instagram.com/reel/DQ1ttNziRaQ/?igsh=MXVjZ3czemUyMTNidA==" target="_blank" rel="noopener noreferrer">
+            <Button
+              size="lg"
+              variant="outline"
+              className="border-2 border-white text-white bg-black/50 hover:bg-white hover:text-black text-lg px-8 py-6 transition-all duration-300"
+            >
+              <Play className="mr-2" size={20} />
+              Watch Story
+            </Button>
+          </a>
         </motion.div>
 
         {/* Scroll Indicator */}
