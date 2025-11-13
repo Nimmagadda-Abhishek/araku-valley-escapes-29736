@@ -127,6 +127,11 @@ const Footer = () => {
             </Link>
           </div>
         </div>
+
+        {/* Designer Info */}
+        <div className="mt-8 text-center text-secondary-foreground/60 text-sm">
+          Designed and developed by <a href="https://lytortech.com" target="_blank" rel="noopener noreferrer" className="hover:text-accent">Lytortech</a>. Website: <a href="https://lytortech.com" target="_blank" rel="noopener noreferrer" className="hover:text-accent">lytortech.com</a>. Mobile: <a href="tel:6301111060" className="hover:text-accent">6301111060</a>
+        </div>
       </div>
     </footer>
   );
