@@ -11,10 +11,10 @@ const Pricing = () => {
 
   const packages = [
     {
-      name: 'Standard Luxury Package',
-      price: '2,250',
+      name: '2 Person Luxury Tent',
+      price: '799',
       features: [
-        'Accommodates 2 guests',
+        'Accommodates 2 persons',
         'Premium tent with mountain view',
         'Breakfast & dinner included',
         'Evening bonfire access',
@@ -23,10 +23,10 @@ const Pricing = () => {
       featured: false,
     },
     {
-      name: 'Premium Experience Package',
-      price: '3,500',
+      name: '3 Person Luxury Tent',
+      price: '999',
       features: [
-        'Accommodates up to 4 guests',
+        'Accommodates 3 persons',
         'Deluxe tent with panoramic views',
         'All meals + evening snacks',
         'Private bonfire arrangement',

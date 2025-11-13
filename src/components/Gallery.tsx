@@ -91,13 +91,7 @@ const Gallery = () => {
           transition={{ duration: 0.6, delay: 0.8 }}
           className="text-center mt-12"
         >
-          <Button
-            variant="outline"
-            size="lg"
-            className="border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground"
-          >
-            Explore Full Gallery →
-          </Button>
+          
         </motion.div>
       </div>
 
