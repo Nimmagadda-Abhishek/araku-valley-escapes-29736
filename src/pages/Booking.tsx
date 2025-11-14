@@ -66,33 +66,33 @@ const Booking = () => {
       <div className="pt-32 pb-24 container mx-auto px-4">
         {/* Progress Indicator */}
         <div className="max-w-4xl mx-auto mb-12">
-          <div className="flex items-center justify-center gap-4">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-4">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold">
                 1
               </div>
-              <span className="font-semibold text-primary">Select Dates</span>
+              <span className="font-semibold text-primary text-sm md:text-base">Select Dates</span>
             </div>
-            <div className="w-16 h-0.5 bg-border" />
+            <div className="w-16 h-0.5 bg-border hidden md:block" />
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-full bg-muted text-muted-foreground flex items-center justify-center">
                 2
               </div>
-              <span className="text-muted-foreground">Choose Tents</span>
+              <span className="text-muted-foreground text-sm md:text-base">Choose Tents</span>
             </div>
-            <div className="w-16 h-0.5 bg-border" />
+            <div className="w-16 h-0.5 bg-border hidden md:block" />
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-full bg-muted text-muted-foreground flex items-center justify-center">
                 3
               </div>
-              <span className="text-muted-foreground">Your Details</span>
+              <span className="text-muted-foreground text-sm md:text-base">Your Details</span>
             </div>
-            <div className="w-16 h-0.5 bg-border" />
+            <div className="w-16 h-0.5 bg-border hidden md:block" />
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-full bg-muted text-muted-foreground flex items-center justify-center">
                 4
               </div>
-              <span className="text-muted-foreground">Payment</span>
+              <span className="text-muted-foreground text-sm md:text-base">Payment</span>
             </div>
           </div>
         </div>

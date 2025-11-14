@@ -1,5 +1,13 @@
-- [x] Update SelectTents page to display dynamic booking details (checkOut, nights, totalAmountPerTent, advanceAmountPerTent, remainingAmountPerTent, pricingNote)
-- [x] Add a new "Pricing Details" section below the Availability Summary
-- [x] Display per tent pricing information dynamically from bookingData.availabilityData
-- [x] Update the Selection Summary to use per tent pricing for calculations
-- [x] Test the display and calculations
+# Booking Flow Fixes
+
+## Progress Indicator Mobile Responsiveness
+- [x] Update Booking.tsx progress indicator to be mobile responsive
+- [x] Update SelectTents.tsx progress indicator to be mobile responsive
+- [x] Update BookingDetails.tsx progress indicator to be mobile responsive
+- [x] Update Payment.tsx progress indicator to be mobile responsive
+
+## UPI Payment Redirect Issue
+- [x] Modify Payment.tsx to handle UPI payments better on mobile
+- [x] Add polling mechanism for payment verification when handler doesn't trigger
+- [x] Improve error handling and user feedback for payment failures
+- [ ] Test the payment flow on mobile devices

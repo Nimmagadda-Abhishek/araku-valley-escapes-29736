@@ -39,6 +39,8 @@ const Payment = () => {
   const [user, setUser] = useState(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [paymentOrderId, setPaymentOrderId] = useState<string | null>(null);
+  const [isPolling, setIsPolling] = useState(false);
 
   useEffect(() => {
     const data = localStorage.getItem('bookingData');
@@ -81,6 +83,57 @@ const Payment = () => {
     }
   };
 
+  const pollPaymentStatus = async (orderId: string, referenceNumber: string) => {
+    setIsPolling(true);
+    let attempts = 0;
+    const maxAttempts = 30; // 30 seconds with 1 second intervals
+
+    const poll = async () => {
+      try {
+        const response = await loggedFetch(`https://apimatrimony.lytortech.com/api/bookings/status/${orderId}`);
+        const data = await response.json();
+
+        if (data.bookingStatus === 'CONFIRMED' && data.paymentStatus === 'ADVANCE_PAID') {
+          localStorage.setItem('confirmationData', JSON.stringify({
+            ...bookingData,
+            referenceNumber,
+            paymentStatus: 'ADVANCE_PAID',
+          }));
+          localStorage.removeItem('bookingData');
+          navigate('/booking/confirmation');
+          return;
+        }
+
+        attempts++;
+        if (attempts < maxAttempts) {
+          setTimeout(poll, 1000);
+        } else {
+          setIsPolling(false);
+          toast({
+            title: 'Payment Verification Timeout',
+            description: 'Please check your bookings page or contact support',
+            variant: 'destructive',
+          });
+        }
+      } catch (error) {
+        console.error('Polling error:', error);
+        attempts++;
+        if (attempts < maxAttempts) {
+          setTimeout(poll, 1000);
+        } else {
+          setIsPolling(false);
+          toast({
+            title: 'Payment Verification Failed',
+            description: 'Please contact support',
+            variant: 'destructive',
+          });
+        }
+      }
+    };
+
+    poll();
+  };
+
   const handlePayment = async () => {
     const firebaseUid = user?.uid;
     if (!firebaseUid) {
@@ -115,6 +168,8 @@ const Payment = () => {
 
       console.log('Booking response:', bookingResponse);
 
+      setPaymentOrderId(bookingResponse.razorpayOrderId);
+
       // Initialize Razorpay
       const options = {
         key: 'rzp_live_RejsUkXNc69HrM',
@@ -127,6 +182,14 @@ const Payment = () => {
           name: bookingData.customerDetails.name,
           email: bookingData.customerDetails.email,
           contact: bookingData.customerDetails.phone,
+        },
+        modal: {
+          ondismiss: function() {
+            // Start polling when user closes the payment modal (common with UPI)
+            if (!isPolling) {
+              pollPaymentStatus(bookingResponse.razorpayOrderId, bookingResponse.referenceNumber);
+            }
+          }
         },
         handler: async function (razorpayResponse: RazorpayResponse) {
           // Verify payment
@@ -232,25 +295,25 @@ const Payment = () => {
       <div className="pt-32 pb-24 container mx-auto px-4">
         {/* Progress Indicator */}
         <div className="max-w-4xl mx-auto mb-12">
-          <div className="flex items-center justify-center gap-4">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-4">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center">✓</div>
-              <span className="text-primary font-semibold">Select Dates</span>
+              <span className="text-primary font-semibold text-sm md:text-base">Select Dates</span>
             </div>
-            <div className="w-16 h-0.5 bg-primary" />
+            <div className="w-16 h-0.5 bg-primary hidden md:block" />
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center">✓</div>
-              <span className="text-primary font-semibold">Choose Tents</span>
+              <span className="text-primary font-semibold text-sm md:text-base">Choose Tents</span>
             </div>
-            <div className="w-16 h-0.5 bg-primary" />
+            <div className="w-16 h-0.5 bg-primary hidden md:block" />
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center">✓</div>
-              <span className="text-primary font-semibold">Your Details</span>
+              <span className="text-primary font-semibold text-sm md:text-base">Your Details</span>
             </div>
-            <div className="w-16 h-0.5 bg-primary" />
+            <div className="w-16 h-0.5 bg-primary hidden md:block" />
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold">4</div>
-              <span className="font-semibold text-primary">Payment</span>
+              <span className="font-semibold text-primary text-sm md:text-base">Payment</span>
             </div>
           </div>
         </div>
@@ -277,6 +340,16 @@ const Payment = () => {
                     <p className="text-sm text-muted-foreground">
                       You will pay 50% advance now. The remaining 50% will be paid at check-in.
                     </p>
+                    {isPolling && (
+                      <div className="mt-4 p-3 bg-primary/10 rounded-lg">
+                        <p className="text-sm text-primary font-semibold">
+                          Verifying payment... Please wait.
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          This may take a few moments for UPI payments.
+                        </p>
+                      </div>
+                    )}
                   </div>
 
                   {user && (

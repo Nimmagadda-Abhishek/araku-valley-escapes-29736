@@ -21,7 +21,7 @@ import image07 from '@/assets/07.PNG';
 import image08 from '@/assets/08.PNG';
 import image09 from '@/assets/09.PNG';
 import image10 from '@/assets/10.PNG';
-import image11 from '@/assets/11.PNG';
+import image11 from '@/assets/03.PNG';
 import image12 from '@/assets/12.PNG';
 import image13 from '@/assets/13.PNG';
 
