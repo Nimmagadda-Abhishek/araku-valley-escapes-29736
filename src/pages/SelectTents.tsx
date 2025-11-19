@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import Navigation from '@/components/Navigation';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Check, Calendar, Tent, User, CreditCard } from 'lucide-react';
 import {
   Tooltip,
   TooltipContent,
@@ -50,12 +50,88 @@ interface BookingData {
   pricing?: Pricing;
 }
 
+/**
+ * ProgressStepper component
+ * - steps: array of { key, title, path, icon }
+ * - current: 1-based current step index
+ * - onStepClick allows navigating back (prevents forward navigation)
+ */
+const ProgressStepper = ({
+  current,
+  onStepClick,
+}: {
+  current: number;
+  onStepClick: (stepIndex: number) => void;
+}) => {
+  const steps = [
+    { key: 'dates', title: 'Select Dates', path: '/booking', icon: Calendar },
+    { key: 'tents', title: 'Choose Tents', path: '/booking/select-tents', icon: Tent },
+    { key: 'details', title: 'Your Details', path: '/booking/details', icon: User },
+    { key: 'payment', title: 'Payment', path: '/booking/payment', icon: CreditCard },
+  ];
+
+  return (
+    <nav aria-label="Booking progress" className="w-full">
+      <div className="flex items-center justify-center gap-4 flex-wrap">
+        {steps.map((step, idx) => {
+          const stepIndex = idx + 1;
+          const isCompleted = stepIndex < current;
+          const isActive = stepIndex === current;
+          const Icon = step.icon;
+
+          return (
+            <div
+              key={step.key}
+              className="flex items-center gap-3"
+            >
+              <button
+                onClick={() => {
+                  // allow navigating back but not forward
+                  if (stepIndex <= current) onStepClick(stepIndex);
+                }}
+                aria-current={isActive ? 'step' : undefined}
+                className={`flex items-center gap-2 focus:outline-none`}
+              >
+                <div
+                  className={`w-9 h-9 rounded-full flex items-center justify-center font-semibold text-sm transition-all
+                    ${isCompleted ? 'bg-primary text-primary-foreground' : ''}
+                    ${isActive ? 'bg-gradient-to-r from-primary to-primary-glow text-white shadow-glow' : ''}
+                    ${!isCompleted && !isActive ? 'bg-muted text-muted-foreground' : ''}
+                  `}
+                >
+                  {isCompleted ? <Check size={16} /> : <Icon size={16} />}
+                </div>
+                <div className="hidden sm:block text-left">
+                  <div className={`text-xs ${isActive ? 'text-primary font-semibold' : isCompleted ? 'text-primary' : 'text-muted-foreground'}`}>
+                    {step.title}
+                  </div>
+                </div>
+              </button>
+
+              {idx < steps.length - 1 && (
+                <div
+                  aria-hidden
+                  className={`hidden md:block w-12 h-0.5 transition-colors
+                    ${isCompleted ? 'bg-primary' : 'bg-border'}`}
+                />
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </nav>
+  );
+};
+
 const SelectTents = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [selectedTents, setSelectedTents] = useState<string[]>([]);
   const [bookingData, setBookingData] = useState<BookingData | null>(null);
   const [tents, setTents] = useState<Tent[]>([]);
+
+  // current step: 2 (Choose Tents)
+  const currentStep = 2;
 
   useEffect(() => {
     const data = localStorage.getItem('bookingData');
@@ -83,7 +159,7 @@ const SelectTents = () => {
   };
 
   const calculateTotal = () => {
-    if (!bookingData) return { subtotal: 0, tax: 0, total: 0, advance: 0, balance: 0 };
+    if (!bookingData) return { subtotal: 0, tax: 0, total: 0, advance: 0, balance: 0, nights: 0 };
 
     // Use per-tent pricing from API if available
     if (bookingData.availabilityData?.totalAmountPerTent) {
@@ -149,42 +225,22 @@ const SelectTents = () => {
 
   const pricing = calculateTotal();
 
+  // handle step clicks from ProgressStepper
+  const handleStepClick = (stepIndex: number) => {
+    // allow navigating back only
+    if (stepIndex === 1) navigate('/booking');
+    if (stepIndex === 2) navigate('/booking/select-tents'); // current
+    // do not allow navigating to 3/4 from here
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
       
       <div className="pt-32 pb-24 container mx-auto px-4">
         {/* Progress Indicator */}
-        <div className="max-w-4xl mx-auto mb-12">
-          <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-4">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center">
-                ✓
-              </div>
-              <span className="text-primary font-semibold text-sm md:text-base">Select Dates</span>
-            </div>
-            <div className="w-16 h-0.5 bg-primary hidden md:block" />
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold">
-                2
-              </div>
-              <span className="font-semibold text-primary text-sm md:text-base">Choose Tents</span>
-            </div>
-            <div className="w-16 h-0.5 bg-border hidden md:block" />
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-muted text-muted-foreground flex items-center justify-center">
-                3
-              </div>
-              <span className="text-muted-foreground text-sm md:text-base">Your Details</span>
-            </div>
-            <div className="w-16 h-0.5 bg-border hidden md:block" />
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-muted text-muted-foreground flex items-center justify-center">
-                4
-              </div>
-              <span className="text-muted-foreground text-sm md:text-base">Payment</span>
-            </div>
-          </div>
+        <div className="max-w-4xl mx-auto mb-8">
+          <ProgressStepper current={currentStep} onStepClick={handleStepClick} />
         </div>
 
         <div className="max-w-6xl mx-auto">
@@ -228,9 +284,6 @@ const SelectTents = () => {
               <p className="text-xs text-muted-foreground">Total: {bookingData.availabilityData.totalTents} tents in the resort</p>
             </div>
           )}
-
-          {/* Pricing Details */}
-          
 
           {/* Legend */}
           <div className="bg-card rounded-lg p-6 mb-8 flex flex-wrap gap-6">

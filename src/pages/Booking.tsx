@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Calendar, Users } from 'lucide-react';
+import { Calendar, Users, Check, Tent, User, CreditCard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -15,6 +15,60 @@ import {
 import { useToast } from '@/hooks/use-toast';
 import Navigation from '@/components/Navigation';
 import { loggedFetch } from '@/lib/utils';
+
+const ProgressStepper = ({ current, onStepClick }) => {
+  const steps = [
+    { key: 'dates', title: 'Select Dates', path: '/booking', icon: Calendar },
+    { key: 'tents', title: 'Choose Tents', path: '/booking/select-tents', icon: Tent },
+    { key: 'details', title: 'Your Details', path: '/booking/details', icon: User },
+    { key: 'payment', title: 'Payment', path: '/booking/payment', icon: CreditCard },
+  ];
+
+  return (
+    <nav aria-label="Booking progress" className="w-full">
+      <div className="flex items-center justify-center gap-4 flex-wrap">
+        {steps.map((step, idx) => {
+          const stepIndex = idx + 1;
+          const isCompleted = stepIndex < current;
+          const isActive = stepIndex === current;
+          const Icon = step.icon;
+
+          return (
+            <div key={step.key} className="flex items-center gap-3">
+              <button
+                onClick={() => {
+                  // allow navigating back but not forward
+                  if (stepIndex <= current) onStepClick(stepIndex);
+                }}
+                aria-current={isActive ? 'step' : undefined}
+                className="flex items-center gap-2 focus:outline-none"
+              >
+                <div
+                  className={`w-9 h-9 rounded-full flex items-center justify-center font-semibold text-sm transition-all
+                    ${isCompleted ? 'bg-primary text-primary-foreground' : ''}
+                    ${isActive ? 'bg-gradient-to-r from-primary to-primary-glow text-white shadow-glow' : ''}
+                    ${!isCompleted && !isActive ? 'bg-muted text-muted-foreground' : ''}
+                  `}
+                >
+                  {isCompleted ? <Check size={16} /> : <Icon size={16} />}
+                </div>
+                <div className="hidden sm:block text-left">
+                  <div className={`text-xs ${isActive ? 'text-primary font-semibold' : isCompleted ? 'text-primary' : 'text-muted-foreground'}`}>
+                    {step.title}
+                  </div>
+                </div>
+              </button>
+
+              {idx < steps.length - 1 && (
+                <div aria-hidden className={`hidden md:block w-12 h-0.5 transition-colors ${isCompleted ? 'bg-primary' : 'bg-border'}`} />
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </nav>
+  );
+};
 
 const Booking = () => {
   const navigate = useNavigate();
@@ -117,6 +171,14 @@ const Booking = () => {
     }
   };
 
+  // current step: 1 (Select Dates)
+  const currentStep = 1;
+  const handleStepClick = (stepIndex) => {
+    // allow navigating back only (from step 1 there is nothing earlier)
+    if (stepIndex === 1) navigate('/booking');
+    // do not allow navigating to 2/3/4 from here
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
@@ -124,49 +186,7 @@ const Booking = () => {
       <div className="pt-32 pb-24 container mx-auto px-4">
         {/* Progress Indicator */}
         <div className="max-w-4xl mx-auto mb-12">
-          <div className="flex flex-row items-center justify-center gap-2 sm:gap-4 flex-wrap">
-            <div className="flex items-center gap-2">
-              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold text-sm">
-                1
-              </div>
-              <span className="font-semibold text-primary text-xs sm:text-sm md:text-base">
-                Select Dates
-              </span>
-            </div>
-
-            <div className="w-10 sm:w-16 h-0.5 bg-border" />
-
-            <div className="flex items-center gap-2">
-              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-muted text-muted-foreground flex items-center justify-center text-sm">
-                2
-              </div>
-              <span className="text-muted-foreground text-xs sm:text-sm md:text-base">
-                Choose Tents
-              </span>
-            </div>
-
-            <div className="w-10 sm:w-16 h-0.5 bg-border" />
-
-            <div className="flex items-center gap-2">
-              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-muted text-muted-foreground flex items-center justify-center text-sm">
-                3
-              </div>
-              <span className="text-muted-foreground text-xs sm:text-sm md:text-base">
-                Your Details
-              </span>
-            </div>
-
-            <div className="w-10 sm:w-16 h-0.5 bg-border" />
-
-            <div className="flex items-center gap-2">
-              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-muted text-muted-foreground flex items-center justify-center text-sm">
-                4
-              </div>
-              <span className="text-muted-foreground text-xs sm:text-sm md:text-base">
-                Payment
-              </span>
-            </div>
-          </div>
+          <ProgressStepper current={currentStep} onStepClick={handleStepClick} />
         </div>
 
         {/* Main Content */}
