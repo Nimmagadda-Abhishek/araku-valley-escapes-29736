@@ -24,6 +24,35 @@ const Booking = () => {
   const [guests, setGuests] = useState('2');
   const [isLoading, setIsLoading] = useState(false);
 
+  // Allowed months: Nov(10), Dec(11), Jan(0), Feb(1)
+  const allowedMonthIndexes = [10, 11, 0, 1];
+
+  // Parse YYYY-MM-DD -> local Date at midnight (avoids timezone shifts)
+  const parseLocalDate = (isoDateStr) => {
+    if (!isoDateStr) return null;
+    const parts = isoDateStr.split('-').map(Number);
+    if (parts.length !== 3) return null;
+    const [y, m, d] = parts;
+    if (!y || !m || !d) return null;
+    return new Date(y, m - 1, d);
+  };
+
+  // Return true only if every day in range [startIso, endIso] has month in allowedMonthIndexes
+  const rangeIsInAllowedMonths = (startIso, endIso) => {
+    const s = parseLocalDate(startIso);
+    const e = parseLocalDate(endIso);
+    if (!s || !e) return false;
+    if (s > e) return false;
+
+    for (let d = new Date(s); d <= e; d.setDate(d.getDate() + 1)) {
+      if (!allowedMonthIndexes.includes(d.getMonth())) {
+        // debug: console.debug('out-of-season day:', d.toISOString(), 'month:', d.getMonth());
+        return false;
+      }
+    }
+    return true;
+  };
+
   const handleCheckAvailability = async () => {
     if (!checkIn || !checkOut) {
       toast({
@@ -34,8 +63,31 @@ const Booking = () => {
       return;
     }
 
-    setIsLoading(true);
+    // Basic validity: parse and ensure checkOut >= checkIn
+    const s = parseLocalDate(checkIn);
+    const e = parseLocalDate(checkOut);
+    if (!s || !e || s > e) {
+      toast({
+        title: 'Invalid Dates',
+        description: 'Please select valid check-in and check-out dates (check-out must be same or after check-in).',
+        variant: 'destructive',
+      });
+      return;
+    }
 
+    // Season check: every day must be in Nov/Dec/Jan/Feb
+    const inSeason = rangeIsInAllowedMonths(checkIn, checkOut);
+    if (!inSeason) {
+      toast({
+        title: 'Seasonal closure',
+        description: 'Tents are available only during November, December, January and February. Please pick dates within those months.',
+        variant: 'destructive',
+      });
+      return; // IMPORTANT: do not call API if out of season
+    }
+
+    // All client-side checks passed -> call API
+    setIsLoading(true);
     try {
       const response = await loggedFetch(
         `https://apimatrimony.lytortech.com/api/availability/${checkIn}?checkOut=${checkOut}&numberOfTents=${guests}`
@@ -47,13 +99,14 @@ const Booking = () => {
         JSON.stringify({
           checkIn,
           checkOut,
-          guests: parseInt(guests),
+          guests: parseInt(guests, 10),
           availabilityData: data,
         })
       );
 
       navigate('/booking/select-tents');
     } catch (error) {
+      console.error('availability error', error);
       toast({
         title: 'Error',
         description: 'Failed to check availability. Please try again.',
