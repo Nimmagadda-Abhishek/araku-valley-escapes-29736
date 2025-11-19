@@ -42,12 +42,11 @@ const Navigation = () => {
             {/* Logo */}
 <Link
   to="/"
-  className={`font-display text-2xl md:text-3xl font-bold transition-colors duration-300 ${
-    isScrolled ? "text-primary" : "text-white"
-  }`}
+  className="font-display text-2xl md:text-3xl font-bold text-foreground"
 >
   Araku Peace Camping Tents
 </Link>
+
 
 
             {/* Desktop Navigation */}
