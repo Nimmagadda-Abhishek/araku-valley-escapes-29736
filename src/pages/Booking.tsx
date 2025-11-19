@@ -37,15 +37,20 @@ const Booking = () => {
     setIsLoading(true);
 
     try {
-      const response = await loggedFetch(`https://apimatrimony.lytortech.com/api/availability/${checkIn}?checkOut=${checkOut}&numberOfTents=${guests}`);
+      const response = await loggedFetch(
+        `https://apimatrimony.lytortech.com/api/availability/${checkIn}?checkOut=${checkOut}&numberOfTents=${guests}`
+      );
       const data = await response.json();
 
-      localStorage.setItem('bookingData', JSON.stringify({
-        checkIn,
-        checkOut,
-        guests: parseInt(guests),
-        availabilityData: data,
-      }));
+      localStorage.setItem(
+        'bookingData',
+        JSON.stringify({
+          checkIn,
+          checkOut,
+          guests: parseInt(guests),
+          availabilityData: data,
+        })
+      );
 
       navigate('/booking/select-tents');
     } catch (error) {
@@ -62,37 +67,51 @@ const Booking = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      
+
       <div className="pt-32 pb-24 container mx-auto px-4">
         {/* Progress Indicator */}
         <div className="max-w-4xl mx-auto mb-12">
-          <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-4">
+          <div className="flex flex-row items-center justify-center gap-2 sm:gap-4 flex-wrap">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold">
+              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold text-sm">
                 1
               </div>
-              <span className="font-semibold text-primary text-sm md:text-base">Select Dates</span>
+              <span className="font-semibold text-primary text-xs sm:text-sm md:text-base">
+                Select Dates
+              </span>
             </div>
-            <div className="w-16 h-0.5 bg-border hidden md:block" />
+
+            <div className="w-10 sm:w-16 h-0.5 bg-border" />
+
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-muted text-muted-foreground flex items-center justify-center">
+              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-muted text-muted-foreground flex items-center justify-center text-sm">
                 2
               </div>
-              <span className="text-muted-foreground text-sm md:text-base">Choose Tents</span>
+              <span className="text-muted-foreground text-xs sm:text-sm md:text-base">
+                Choose Tents
+              </span>
             </div>
-            <div className="w-16 h-0.5 bg-border hidden md:block" />
+
+            <div className="w-10 sm:w-16 h-0.5 bg-border" />
+
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-muted text-muted-foreground flex items-center justify-center">
+              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-muted text-muted-foreground flex items-center justify-center text-sm">
                 3
               </div>
-              <span className="text-muted-foreground text-sm md:text-base">Your Details</span>
+              <span className="text-muted-foreground text-xs sm:text-sm md:text-base">
+                Your Details
+              </span>
             </div>
-            <div className="w-16 h-0.5 bg-border hidden md:block" />
+
+            <div className="w-10 sm:w-16 h-0.5 bg-border" />
+
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-muted text-muted-foreground flex items-center justify-center">
+              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-muted text-muted-foreground flex items-center justify-center text-sm">
                 4
               </div>
-              <span className="text-muted-foreground text-sm md:text-base">Payment</span>
+              <span className="text-muted-foreground text-xs sm:text-sm md:text-base">
+                Payment
+              </span>
             </div>
           </div>
         </div>
@@ -103,14 +122,17 @@ const Booking = () => {
           animate={{ opacity: 1, y: 0 }}
           className="max-w-2xl mx-auto bg-card rounded-2xl shadow-strong p-8 md:p-12"
         >
-          <h1 className="font-display text-4xl font-bold text-center mb-8 text-foreground">
+          <h1 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-center whitespace-nowrap mb-8 text-foreground">
             Plan Your Escape
           </h1>
 
           <div className="space-y-6">
             {/* Check-in Date */}
             <div>
-              <Label htmlFor="checkIn" className="text-base mb-2 flex items-center gap-2">
+              <Label
+                htmlFor="checkIn"
+                className="text-base mb-2 flex items-center gap-2"
+              >
                 <Calendar size={18} className="text-primary" />
                 Check-in Date
               </Label>
@@ -126,7 +148,10 @@ const Booking = () => {
 
             {/* Check-out Date */}
             <div>
-              <Label htmlFor="checkOut" className="text-base mb-2 flex items-center gap-2">
+              <Label
+                htmlFor="checkOut"
+                className="text-base mb-2 flex items-center gap-2"
+              >
                 <Calendar size={18} className="text-primary" />
                 Check-out Date
               </Label>
@@ -142,7 +167,10 @@ const Booking = () => {
 
             {/* Number of Guests */}
             <div>
-              <Label htmlFor="guests" className="text-base mb-2 flex items-center gap-2">
+              <Label
+                htmlFor="guests"
+                className="text-base mb-2 flex items-center gap-2"
+              >
                 <Users size={18} className="text-primary" />
                 Number of Tents
               </Label>

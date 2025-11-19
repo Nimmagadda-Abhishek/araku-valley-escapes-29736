@@ -40,9 +40,15 @@ const Navigation = () => {
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <Link to="/" className="font-display text-2xl md:text-3xl font-bold text-primary">
-              Araku Peace Camping Tents
-            </Link>
+<Link
+  to="/"
+  className={`font-display text-2xl md:text-3xl font-bold transition-colors duration-300 ${
+    isScrolled ? "text-primary" : "text-white"
+  }`}
+>
+  Araku Peace Camping Tents
+</Link>
+
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-8">
