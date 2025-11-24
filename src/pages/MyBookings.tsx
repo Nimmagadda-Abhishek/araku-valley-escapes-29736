@@ -280,7 +280,10 @@ const MyBookingsPage = () => {
                 ? "You haven't made any bookings yet"
                 : `No ${filter} bookings available`}
             </p>
-            <button className="bg-[hsl(142,76%,25%)] text-white px-8 py-3 rounded-lg hover:bg-[hsl(142,76%,20%)] transition-colors">
+            <button 
+              onClick={() => navigate('/booking')}
+              className="bg-[hsl(142,76%,25%)] text-white px-8 py-3 rounded-lg hover:bg-[hsl(142,76%,20%)] transition-colors"
+            >
               Book Now
             </button>
           </div>
