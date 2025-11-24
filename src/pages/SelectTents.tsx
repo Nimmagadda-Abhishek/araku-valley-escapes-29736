@@ -268,16 +268,11 @@ const SelectTents = () => {
                     <strong>{bookingData.availabilityData.availableTents}</strong> Available
                   </span>
                 </div>
+                
                 <div className="flex items-center gap-3">
                   <div className="w-4 h-4 rounded-full bg-red-500"></div>
                   <span className="text-sm">
-                    <strong>{bookingData.availabilityData.bookedTents}</strong> Booked
-                  </span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-4 h-4 rounded-full bg-gray-600"></div>
-                  <span className="text-sm">
-                    <strong>{bookingData.availabilityData.totalTents - bookingData.availabilityData.availableTents - bookingData.availabilityData.bookedTents}</strong> Reserved
+                    <strong>{bookingData.availabilityData.totalTents - bookingData.availabilityData.availableTents - bookingData.availabilityData.bookedTents}</strong>booked
                   </span>
                 </div>
               </div>
@@ -297,14 +292,9 @@ const SelectTents = () => {
               <div className="w-10 h-10 rounded-full bg-red-500 flex items-center justify-center text-white font-semibold">
                 T
               </div>
-              <span className="text-sm">Booked (Cannot Select)</span>
+              <span className="text-sm">Unavailable (Cannot Select)</span>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="w-10 h-10 rounded-full bg-gray-600 flex items-center justify-center text-white font-semibold">
-                T
-              </div>
-              <span className="text-sm">Reserved (Not Available)</span>
-            </div>
+
             <div className="flex items-center gap-2">
               <div className="w-10 h-10 rounded-full bg-orange-400 flex items-center justify-center text-white font-semibold">
                 T
@@ -325,14 +315,14 @@ const SelectTents = () => {
                       
                       const getColor = () => {
                         if (isSelected) return 'bg-orange-400 text-white shadow-glow';
-                        if (tent.status === 'BOOKED') return 'bg-red-500 text-white cursor-not-allowed opacity-70';
-                        if (tent.status === 'RESERVED') return 'bg-gray-600 text-white cursor-not-allowed opacity-70';
+                        if (tent.status === 'BOOKED') return 'bg-red-600 text-white cursor-not-allowed opacity-70';
+                        if (tent.status === 'RESERVED') return 'bg-red-600 text-white cursor-not-allowed opacity-70';
                         return 'bg-green-500 text-white hover:shadow-medium';
                       };
                       
                       const getTooltip = () => {
                         if (tent.status === 'BOOKED') return 'Already booked';
-                        if (tent.status === 'RESERVED') return 'Reserved for daily inventory';
+                        if (tent.status === 'RESERVED') return 'Unavailable';
                         return 'Click to select';
                       };
                       
