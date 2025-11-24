@@ -292,7 +292,7 @@ const SelectTents = () => {
               <div className="w-10 h-10 rounded-full bg-red-500 flex items-center justify-center text-white font-semibold">
                 T
               </div>
-              <span className="text-sm">Unavailable (Cannot Select)</span>
+              <span className="text-sm">Unavailable (Booked)</span>
             </div>
 
             <div className="flex items-center gap-2">
