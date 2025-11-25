@@ -17,6 +17,7 @@ import BookingPolicy from "./pages/BookingPolicy";
 import CancellationAndRefundPolicy from "./pages/CancellationAndRefundPolicy";
 import ContactUs from "./pages/ContactUs";
 import NotFound from "./pages/NotFound";
+import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/booking" element={<Booking />} />
