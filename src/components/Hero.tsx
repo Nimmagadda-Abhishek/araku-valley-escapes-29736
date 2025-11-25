@@ -81,7 +81,7 @@ const Hero = () => {
               Book Now
             </Button>
           </Link>
-          <a href="https://www.instagram.com/reel/DQ1ttNziRaQ/?igsh=MXVjZ3czemUyMTNidA==" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.instagram.com/reel/DRY_lrQkWG9/?igsh=MTZjM3RmdTEybnpnZw==" target="_blank" rel="noopener noreferrer">
             <Button
               size="lg"
               variant="outline"
