@@ -239,28 +239,7 @@ const Booking = () => {
             </div>
 
             {/* Number of Guests */}
-            <div>
-              <Label
-                htmlFor="guests"
-                className="text-base mb-2 flex items-center gap-2"
-              >
-                <Users size={18} className="text-primary" />
-                Number of Tents
-              </Label>
-              <Select value={guests} onValueChange={setGuests}>
-                <SelectTrigger className="text-base">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
-                    <SelectItem key={num} value={String(num)}>
-                      {num} {num === 1 ? 'Tent' : 'Tents'}
-                    </SelectItem>
-                  ))}
-                  <SelectItem value="9">8+ Tents</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+            
 
             {/* Submit Button */}
             <Button
