@@ -587,7 +587,7 @@ const SelectTents = () => {
         setTents(parsed.availabilityData.tents);
 
 
-        const bookedCount = parsed.availabilityData.tents.filter((tent) => tent.status === 'BOOKED').length;
+        const bookedCount = parsed.availabilityData.tents.filter((tent) => tent.status === 'BOOKED' || tent.status === 'RESERVED').length;
         
         parsed = {
           ...parsed,
@@ -600,6 +600,7 @@ const SelectTents = () => {
 
 
       setBookingData(parsed);
+      console.log('Received booking data:', parsed);
 
 
       const seenInfo = sessionStorage.getItem('hasSeenTentInfo');
