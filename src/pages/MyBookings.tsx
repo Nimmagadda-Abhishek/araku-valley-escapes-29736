@@ -176,7 +176,7 @@ const MyBookingsPage = () => {
         customerEmail: bookings.find(b => b.id === supportForm.bookingId)?.customerEmail,
       };
 
-      const response = await loggedFetch('https://b0fda21e018f.ngrok-free.app/api/support', {
+      const response = await loggedFetch('https://apimatrimony.lytortech.com/api/support', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(supportPayload),

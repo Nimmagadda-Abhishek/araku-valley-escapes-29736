@@ -144,7 +144,14 @@ const Booking = () => {
     setIsLoading(true);
     try {
       const response = await loggedFetch(
-        `https://apimatrimony.lytortech.com/api/availability/${checkIn}?checkOut=${checkOut}&numberOfTents=${guests}`
+        `https://apimatrimony.lytortech.com/api/availability/${checkIn}?checkOut=${checkOut}&numberOfTents=${guests}`,
+        {
+          method: 'GET',
+          headers: {
+            'ngrok-skip-browser-warning': '69420',
+            'Content-Type': 'application/json',
+          },
+        }
       );
       const data = await response.json();
 
