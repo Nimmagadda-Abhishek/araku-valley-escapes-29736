@@ -1,14 +1,13 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { Button } from './ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
 
-
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,17 +17,24 @@ const Navigation = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Check if current route is home page
+  const isHomePage = location.pathname === '/';
 
   const navLinks = [
-    { name: 'Home', href: '/' },
-    { name: 'About', href: '#about' },
-    { name: 'Experiences', href: '#experiences' },
-    { name: 'Gallery', href: '#gallery' },
-    { name: 'Reviews', href: '#testimonials' },
-    { name: 'My Bookings', href: '/my-bookings' },
-    { name: 'Contact Us', href: '/contact-us' },
+    { name: 'Home', href: '/', showAlways: true },
+    { name: 'About', href: '#about', showAlways: false },
+    { name: 'Experiences', href: '#experiences', showAlways: false },
+    { name: 'Gallery', href: '#gallery', showAlways: false },
+    { name: 'Reviews', href: '#testimonials', showAlways: false },
+    { name: 'My Bookings', href: '/my-bookings', showAlways: true },
+    { name: 'Contact Us', href: '/contact-us', showAlways: true },
   ];
 
+  // Filter nav links based on current page
+  const filteredNavLinks = navLinks.filter(link => {
+    if (link.showAlways) return true;
+    return isHomePage;
+  });
 
   return (
     <>
@@ -37,8 +43,8 @@ const Navigation = () => {
         animate={{ y: 0 }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled
-            ? 'glass-effect shadow-medium py-3'
-            : 'bg-transparent py-6'
+            ? 'bg-white shadow-medium py-3'
+            : 'bg-white py-6'
         }`}
       >
         <div className="container mx-auto px-4 md:px-6">
@@ -46,15 +52,14 @@ const Navigation = () => {
             {/* Logo - Truncated on mobile */}
             <Link
               to="/"
-              className="font-display text-base sm:text-xl md:text-2xl lg:text-3xl font-bold text-foreground overflow-hidden text-ellipsis whitespace-nowrap max-w-[calc(100vw-120px)] md:max-w-none"
+              className="font-display text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-foreground overflow-hidden text-ellipsis whitespace-nowrap max-w-[calc(100vw-120px)] md:max-w-none"
             >
               Araku Peace Camping Tents
             </Link>
 
-
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center gap-6 xl:gap-8">
-              {navLinks.map((link) => (
+              {filteredNavLinks.map((link) => (
                 link.href.startsWith('/') ? (
                   <Link
                     key={link.name}
@@ -77,7 +82,6 @@ const Navigation = () => {
               ))}
             </div>
 
-
             {/* Desktop CTA Button */}
             <div className="hidden lg:block">
               <Link to="/booking">
@@ -86,7 +90,6 @@ const Navigation = () => {
                 </Button>
               </Link>
             </div>
-
 
             {/* Mobile Menu Button - Always visible */}
             <button
@@ -99,7 +102,6 @@ const Navigation = () => {
           </div>
         </div>
       </motion.nav>
-
 
       {/* Mobile Menu */}
       <AnimatePresence>
@@ -116,10 +118,10 @@ const Navigation = () => {
                 setIsMobileMenuOpen(false);
               }
             }}
-            className="fixed inset-0 z-40 bg-background lg:hidden"
+            className="fixed inset-0 z-40 bg-white lg:hidden"
           >
             <div className="flex flex-col items-center justify-start h-full gap-6 pt-24 overflow-y-auto pb-8 px-4">
-              {navLinks.map((link, index) => (
+              {filteredNavLinks.map((link, index) => (
                 link.href.startsWith('/') ? (
                   <motion.div
                     key={link.name}
@@ -161,6 +163,5 @@ const Navigation = () => {
     </>
   );
 };
-
 
 export default Navigation;
