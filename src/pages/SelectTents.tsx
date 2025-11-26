@@ -12,12 +12,10 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-
 interface Tent {
   tentNumber: string;
   status: string;
 }
-
 
 interface AvailabilityData {
   tents: Tent[];
@@ -34,7 +32,6 @@ interface AvailabilityData {
   pricingNote?: string;
 }
 
-
 interface Pricing {
   subtotal: number;
   tax: number;
@@ -44,7 +41,6 @@ interface Pricing {
   nights: number;
 }
 
-
 interface BookingData {
   checkIn: string;
   checkOut: string;
@@ -53,7 +49,6 @@ interface BookingData {
   selectedTents?: string[];
   pricing?: Pricing;
 }
-
 
 const ProgressStepper = ({
   current,
@@ -69,7 +64,6 @@ const ProgressStepper = ({
     { key: 'payment', title: 'Payment', path: '/booking/payment', icon: CreditCard },
   ];
 
-
   return (
     <nav aria-label="Booking progress" className="w-full">
       <div className="flex items-center justify-center gap-4 flex-wrap">
@@ -78,7 +72,6 @@ const ProgressStepper = ({
           const isCompleted = stepIndex < current;
           const isActive = stepIndex === current;
           const Icon = step.icon;
-
 
           return (
             <div key={step.key} className="flex items-center gap-3">
@@ -109,7 +102,6 @@ const ProgressStepper = ({
                 </div>
               </button>
 
-
               {idx < steps.length - 1 && (
                 <div
                   aria-hidden
@@ -124,7 +116,6 @@ const ProgressStepper = ({
   );
 };
 
-
 const BookingInfoModal = ({
   isOpen,
   onClose,
@@ -137,7 +128,6 @@ const BookingInfoModal = ({
   const [language, setLanguage] = useState<'english' | 'telugu' | 'hindi'>('english');
   const [guestCount, setGuestCount] = useState('1');
   const [guestNotes, setGuestNotes] = useState('');
-
 
   const translations = {
     english: {
@@ -226,9 +216,7 @@ const BookingInfoModal = ({
     },
   };
 
-
   const t = translations[language];
-
 
   const handleGuestCountChange = (value: string) => {
     // Allow empty string or numbers only
@@ -237,7 +225,6 @@ const BookingInfoModal = ({
     }
   };
 
-
   const getGuestCountNumber = (): number => {
     const num = parseInt(guestCount);
     if (isNaN(num) || num < 1) return 1;
@@ -245,14 +232,12 @@ const BookingInfoModal = ({
     return num;
   };
 
-
   const getPricingForDate = (dateStr: string) => {
     const date = new Date(dateStr);
     const month = date.getMonth();
     const day = date.getDate();
     const dayOfWeek = date.getDay();
     const year = date.getFullYear();
-
 
     if (month === 10) {
       return {
@@ -264,12 +249,10 @@ const BookingInfoModal = ({
       };
     }
 
-
     if (month === 11) {
       const premiumDays = [6, 13, 20, 24, 25, 27, 30, 31];
       const isPremium = premiumDays.includes(day);
       const isFriSatSun = dayOfWeek === 5 || dayOfWeek === 6 || dayOfWeek === 0;
-
 
       if (isPremium) {
         return {
@@ -298,11 +281,9 @@ const BookingInfoModal = ({
       }
     }
 
-
     if (month === 0 && year === 2026) {
       const premiumDays = [2, 3, 4, 10, 17, 24, 31];
       const isPremium = premiumDays.includes(day);
-
 
       if (isPremium) {
         return {
@@ -323,7 +304,6 @@ const BookingInfoModal = ({
       }
     }
 
-
     return {
       month: 'Standard Days',
       pricing: [
@@ -333,26 +313,31 @@ const BookingInfoModal = ({
     };
   };
 
-
+  // FIXED FUNCTION - This is the corrected version
   const getTentDistribution = (guests: number) => {
+    if (guests <= 0) return [1];
+    
     const tents = Math.ceil(guests / 3);
-    const dist: number[] = new Array(tents).fill(3);
-    const totalAllocated = tents * 3;
-    const difference = totalAllocated - guests;
-
-
-    for (let i = tents - 1; i >= Math.max(0, tents - difference); i--) {
-      dist[i] = Math.max(1, 3 - (difference - (tents - 1 - i)));
+    const dist: number[] = [];
+    
+    let remainingGuests = guests;
+    
+    for (let i = 0; i < tents; i++) {
+      if (i === tents - 1) {
+        // Last tent gets all remaining guests
+        dist.push(remainingGuests);
+      } else {
+        // Other tents get 3 guests
+        dist.push(3);
+        remainingGuests -= 3;
+      }
     }
-
-
+    
     return dist;
   };
 
-
   const currentPricing = getPricingForDate(checkInDate);
   const tentDistribution = getTentDistribution(getGuestCountNumber());
-
 
   return (
     <AnimatePresence>
@@ -365,7 +350,6 @@ const BookingInfoModal = ({
             onClick={onClose}
             className="absolute inset-0 bg-black/60 backdrop-blur-sm"
           />
-
 
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -389,7 +373,6 @@ const BookingInfoModal = ({
                   <X size={24} />
                 </button>
               </div>
-
 
               <div className="mt-4 flex items-center gap-2 flex-wrap">
                 <span className="text-sm opacity-90">{t.languages}</span>
@@ -422,7 +405,6 @@ const BookingInfoModal = ({
               </div>
             </div>
 
-
             <div className="p-6">
               <div className="mb-6">
                 <label htmlFor="guestCount" className="block font-semibold mb-2 text-lg">
@@ -449,7 +431,6 @@ const BookingInfoModal = ({
                 <p className="text-xs text-muted-foreground mt-1">Maximum 30 guests</p>
               </div>
 
-
               <div className="mb-6">
                 <label htmlFor="guestNotes" className="block font-semibold mb-2 text-base">
                   {t.guestNotesLabel}
@@ -464,7 +445,6 @@ const BookingInfoModal = ({
                   aria-label="Guest Notes"
                 />
               </div>
-
 
               <div className="mb-6 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-950/30 dark:to-pink-950/30 p-5 rounded-xl border-2 border-purple-300 dark:border-purple-700">
                 <h3 className="font-bold text-lg mb-3 flex items-center gap-2">
@@ -490,7 +470,6 @@ const BookingInfoModal = ({
                 </div>
               </div>
 
-
               <div className="mb-6 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/30 dark:to-emerald-950/30 p-5 rounded-xl border-2 border-green-300 dark:border-green-700">
                 <h3 className="font-bold text-lg mb-3 text-green-900 dark:text-green-100 flex items-center gap-2">
                   <Calendar className="text-green-600 dark:text-green-400" size={24} />
@@ -512,7 +491,6 @@ const BookingInfoModal = ({
                 </div>
               </div>
 
-
               <div className="mb-6 bg-orange-50 dark:bg-orange-950/30 p-5 rounded-xl border-2 border-orange-200 dark:border-orange-800">
                 <h3 className="font-bold text-lg mb-3 text-orange-900 dark:text-orange-100 flex items-center gap-2">
                   <CreditCard className="text-orange-600 dark:text-orange-400" size={24} />
@@ -530,7 +508,6 @@ const BookingInfoModal = ({
                 </ul>
               </div>
 
-
               <div className="mb-6 bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-amber-950/30 dark:to-yellow-950/30 p-5 rounded-xl border-l-4 border-amber-500">
                 <h3 className="font-bold text-lg mb-2 text-amber-900 dark:text-amber-100 flex items-center gap-2">
                   <Info className="text-amber-600 dark:text-amber-400" size={24} />
@@ -541,7 +518,6 @@ const BookingInfoModal = ({
                   <p className="text-sm font-semibold text-amber-900 dark:text-amber-100">💡 {t.flexibilityExample}</p>
                 </div>
               </div>
-
 
               <Button
                 onClick={onClose}
@@ -558,7 +534,6 @@ const BookingInfoModal = ({
   );
 };
 
-
 const SelectTents = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -568,9 +543,7 @@ const SelectTents = () => {
   const [showInfoModal, setShowInfoModal] = useState(false);
   const [hasSeenInfo, setHasSeenInfo] = useState(false);
 
-
   const currentStep = 2;
-
 
   useEffect(() => {
     const data = localStorage.getItem('bookingData');
@@ -582,10 +555,8 @@ const SelectTents = () => {
     try {
       let parsed = JSON.parse(data) as BookingData;
 
-
       if (parsed?.availabilityData?.tents) {
         setTents(parsed.availabilityData.tents);
-
 
         const bookedCount = parsed.availabilityData.tents.filter((tent) => tent.status === 'BOOKED' || tent.status === 'RESERVED').length;
         
@@ -598,10 +569,8 @@ const SelectTents = () => {
         };
       }
 
-
       setBookingData(parsed);
       console.log('Received booking data:', parsed);
-
 
       const seenInfo = sessionStorage.getItem('hasSeenTentInfo');
       if (!seenInfo) {
@@ -615,39 +584,32 @@ const SelectTents = () => {
     }
   }, [navigate]);
 
-
   const handleCloseInfoModal = () => {
     setShowInfoModal(false);
     setHasSeenInfo(true);
     sessionStorage.setItem('hasSeenTentInfo', 'true');
   };
 
-
   const toggleTent = (tentNumber: string, status: string) => {
     if (status === 'BOOKED' || status === 'RESERVED') return;
-
 
     if (!hasSeenInfo && selectedTents.length === 0) {
       setShowInfoModal(true);
       return;
     }
 
-
     setSelectedTents((prev) =>
       prev.includes(tentNumber) ? prev.filter((t) => t !== tentNumber) : [...prev, tentNumber]
     );
   };
 
-
   const calculateTotal = (): Pricing => {
     if (!bookingData) return { subtotal: 0, tax: 0, total: 0, advance: 0, balance: 0, nights: 0 };
-
 
     if (bookingData.availabilityData?.totalAmountPerTent) {
       const perTentTotal = bookingData.availabilityData.totalAmountPerTent;
       const perTentAdvance = bookingData.availabilityData.advanceAmountPerTent || perTentTotal * 0.5;
       const perTentBalance = bookingData.availabilityData.remainingAmountPerTent || perTentTotal - perTentAdvance;
-
 
       return {
         subtotal: perTentTotal * selectedTents.length,
@@ -658,7 +620,6 @@ const SelectTents = () => {
         nights: bookingData.availabilityData.nights,
       };
     }
-
 
     if (bookingData.availabilityData?.totalAmount) {
       return {
@@ -671,22 +632,18 @@ const SelectTents = () => {
       };
     }
 
-
     const checkIn = new Date(bookingData.checkIn);
     const checkOut = new Date(bookingData.checkOut);
     const nights = Math.ceil((checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24));
     const tentPrice = 2250;
-
 
     const subtotal = tentPrice * selectedTents.length * nights;
     const total = subtotal;
     const advance = total * 0.5;
     const balance = total - advance;
 
-
     return { subtotal, tax: 0, total, advance, balance, nights };
   };
-
 
   const handleContinue = () => {
     if (selectedTents.length === 0) {
@@ -698,7 +655,6 @@ const SelectTents = () => {
       return;
     }
 
-
     const updatedTents = tents.map((tent) => {
       if (selectedTents.includes(tent.tentNumber)) {
         return { ...tent, status: 'BOOKED' };
@@ -708,16 +664,13 @@ const SelectTents = () => {
       return tent;
     });
 
-
     const bookedCount = updatedTents.filter((tent) => tent.status === 'BOOKED').length;
-
 
     const updatedAvailabilityData = {
       ...bookingData!.availabilityData!,
       tents: updatedTents,
       bookedTents: bookedCount,
     };
-
 
     const updatedData: BookingData = {
       ...bookingData!,
@@ -726,19 +679,16 @@ const SelectTents = () => {
       pricing: calculateTotal(),
     };
 
-
     localStorage.setItem('bookingData', JSON.stringify(updatedData));
     setBookingData(updatedData);
     setTents(updatedTents);
     navigate('/booking/details');
   };
 
-
   const handleStepClick = (stepIndex: number) => {
     if (stepIndex === 1) navigate('/booking');
     if (stepIndex === 2) navigate('/booking/select-tents');
   };
-
 
   if (!bookingData) {
     return (
@@ -751,23 +701,18 @@ const SelectTents = () => {
     );
   }
 
-
   const pricing = calculateTotal();
-
 
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
 
-
       <BookingInfoModal isOpen={showInfoModal} onClose={handleCloseInfoModal} checkInDate={bookingData.checkIn} />
-
 
       <div className="pt-32 pb-24 container mx-auto px-4">
         <div className="max-w-4xl mx-auto mb-8">
           <ProgressStepper current={currentStep} onStepClick={handleStepClick} />
         </div>
-
 
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center justify-between mb-6">
@@ -776,16 +721,13 @@ const SelectTents = () => {
               Back
             </Button>
 
-
             <Button variant="outline" onClick={() => setShowInfoModal(true)} className="flex items-center gap-2">
               <Info size={18} />
               Booking Info
             </Button>
           </div>
 
-
           <h1 className="font-display text-4xl font-bold mb-8">Select Your Tents</h1>
-
 
           {bookingData.availabilityData && (
             <div className="bg-gradient-to-r from-primary/10 to-primary/5 rounded-xl p-6 mb-6 border border-primary/20">
@@ -805,7 +747,6 @@ const SelectTents = () => {
                   </span>
                 </div>
 
-
                 <div className="flex items-center gap-3">
                   <div className="w-4 h-4 rounded-full bg-red-500"></div>
                   <span className="text-sm">
@@ -818,7 +759,6 @@ const SelectTents = () => {
               </p>
             </div>
           )}
-
 
           <div className="bg-card rounded-lg p-6 mb-8 flex flex-wrap gap-6">
             <div className="flex items-center gap-2">
@@ -834,7 +774,6 @@ const SelectTents = () => {
               <span className="text-sm">Unavailable (Booked)</span>
             </div>
 
-
             <div className="flex items-center gap-2">
               <div className="w-10 h-10 rounded-full bg-orange-400 flex items-center justify-center text-white font-semibold">
                 T
@@ -842,7 +781,6 @@ const SelectTents = () => {
               <span className="text-sm">Your Selection</span>
             </div>
           </div>
-
 
           <div className="grid md:grid-cols-3 gap-8">
             <div className="md:col-span-2">
@@ -853,7 +791,6 @@ const SelectTents = () => {
                       const isSelected = selectedTents.includes(tent.tentNumber);
                       const isDisabled = tent.status === 'BOOKED' || tent.status === 'RESERVED';
 
-
                       const getColor = () => {
                         if (isSelected) return 'bg-orange-400 text-white shadow-glow';
                         if (tent.status === 'BOOKED') return 'bg-red-600 text-white cursor-not-allowed opacity-70';
@@ -861,13 +798,11 @@ const SelectTents = () => {
                         return 'bg-green-500 text-white hover:shadow-medium';
                       };
 
-
                       const getTooltip = () => {
                         if (tent.status === 'BOOKED') return 'Already booked';
                         if (tent.status === 'RESERVED') return 'Unavailable';
                         return 'Click to select';
                       };
-
 
                       return (
                         <Tooltip key={tent.tentNumber}>
@@ -893,11 +828,9 @@ const SelectTents = () => {
               </div>
             </div>
 
-
             <div>
               <div className="bg-card rounded-2xl shadow-soft p-6 sticky top-32">
                 <h3 className="font-display text-xl font-bold mb-4">Your Selection</h3>
-
 
                 <div className="space-y-3 pb-4 border-b border-border">
                   <div className="flex justify-between text-sm">
@@ -912,7 +845,6 @@ const SelectTents = () => {
                   </div>
                 </div>
 
-
                 <div className="space-y-2 py-4 border-b border-border">
                   <h4 className="font-semibold mb-2">Price Calculation</h4>
                   <div className="flex justify-between text-sm">
@@ -921,12 +853,10 @@ const SelectTents = () => {
                   </div>
                 </div>
 
-
                 <div className="flex justify-between font-bold text-lg mt-4 mb-4">
                   <span>Total:</span>
                   <span className="text-primary">₹{pricing.total.toLocaleString()}</span>
                 </div>
-
 
                 <div className="bg-muted/50 rounded-lg p-3 space-y-2 text-sm mb-6">
                   <div className="flex justify-between">
@@ -939,7 +869,6 @@ const SelectTents = () => {
                   </div>
                   <p className="text-xs text-muted-foreground mt-2">Pay advance online, balance at check-in</p>
                 </div>
-
 
                 <Button
                   onClick={handleContinue}
@@ -957,6 +886,5 @@ const SelectTents = () => {
     </div>
   );
 };
-
 
 export default SelectTents;
