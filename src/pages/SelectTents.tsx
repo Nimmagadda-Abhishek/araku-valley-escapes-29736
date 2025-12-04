@@ -280,6 +280,13 @@ const BookingInfoModal = ({
             { guests: t.people3, price: '₹999' },
             { guests: t.people2, price: '₹799' },
           ],
+          premiumInfo: {
+            title: `${t.premiumDates}: 6, 13, 20, 24, 25, 27, 30, 31`,
+            pricing: [
+              { guests: t.people3, price: '₹1499' },
+              { guests: t.people2, price: '₹999' },
+            ],
+          },
         };
       }
     }
@@ -306,6 +313,13 @@ const BookingInfoModal = ({
             { guests: t.people3, price: '₹999' },
             { guests: t.people2, price: '₹799' },
           ],
+          premiumInfo: {
+            title: `${t.premiumDates}: 2, 3, 4, 10, 17, 24, 31`,
+            pricing: [
+              { guests: t.people3, price: '₹1499' },
+              { guests: t.people2, price: '₹999' },
+            ],
+          },
         };
       }
     }
@@ -505,6 +519,28 @@ const BookingInfoModal = ({
                       </div>
                     ))}
                   </div>
+                  
+                  {/* Premium Dates Information */}
+                  {currentPricing.premiumInfo && (
+                    <div className="mt-4 pt-4 border-t-2 border-green-200 dark:border-green-800">
+                      <div className="bg-amber-50 dark:bg-amber-900/30 rounded-lg p-3 border-2 border-amber-300 dark:border-amber-700">
+                        <p className="text-xs font-semibold text-amber-900 dark:text-amber-100 mb-2">
+                          ⭐ {currentPricing.premiumInfo.title}
+                        </p>
+                        <div className="grid grid-cols-2 gap-3">
+                          {currentPricing.premiumInfo.pricing.map((item, idx) => (
+                            <div
+                              key={idx}
+                              className="bg-amber-100 dark:bg-amber-900/50 rounded-md p-2 text-center"
+                            >
+                              <div className="text-xs text-amber-700 dark:text-amber-300 font-medium">{item.guests}</div>
+                              <div className="text-lg font-bold text-amber-600 dark:text-amber-400">{item.price}</div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
 
