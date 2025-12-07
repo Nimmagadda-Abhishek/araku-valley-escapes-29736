@@ -269,7 +269,7 @@ const BookingInfoModal = ({
         return {
           month: `${t.decPremium}: 6, 13, 20, 24, 25, 27, 30, 31`,
           pricing: [
-            { guests: t.people3, price: '₹1499' },
+            { guests: t.people3, price: '₹1199' },
             { guests: t.people2, price: '₹999' },
           ],
         };
@@ -283,7 +283,7 @@ const BookingInfoModal = ({
           premiumInfo: {
             title: `${t.premiumDates}: 6, 13, 20, 24, 25, 27, 30, 31`,
             pricing: [
-              { guests: t.people3, price: '₹1499' },
+              { guests: t.people3, price: '₹1199' },
               { guests: t.people2, price: '₹999' },
             ],
           },
@@ -302,7 +302,7 @@ const BookingInfoModal = ({
         return {
           month: `${t.janPremium}: 2, 3, 4, 10, 17, 24, 31`,
           pricing: [
-            { guests: t.people3, price: '₹1499' },
+            { guests: t.people3, price: '₹1199' },
             { guests: t.people2, price: '₹999' },
           ],
         };
@@ -316,7 +316,7 @@ const BookingInfoModal = ({
           premiumInfo: {
             title: `${t.premiumDates}: 2, 3, 4, 10, 17, 24, 31`,
             pricing: [
-              { guests: t.people3, price: '₹1499' },
+              { guests: t.people3, price: '₹1199' },
               { guests: t.people2, price: '₹999' },
             ],
           },
