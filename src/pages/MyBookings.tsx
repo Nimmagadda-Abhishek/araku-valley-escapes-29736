@@ -327,9 +327,21 @@ const MyBookingsPage = () => {
                           <Calendar className="w-5 h-5 text-[hsl(142,76%,25%)]" />
                         </div>
                         <div>
-                          <p className="text-sm text-[hsl(24,15%,45%)]">Check-in Date</p>
+                          <p className="text-sm text-[hsl(24,15%,45%)]">Check-in</p>
                           <p className="font-semibold text-[hsl(24,30%,15%)]">
-                            {formatDate(booking.bookingDate)}
+                            {formatDate(booking.bookingDate)} at 4:00 PM
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 rounded-lg bg-[hsl(142,76%,25%)]/10 flex items-center justify-center flex-shrink-0">
+                          <Clock className="w-5 h-5 text-[hsl(142,76%,25%)]" />
+                        </div>
+                        <div>
+                          <p className="text-sm text-[hsl(24,15%,45%)]">Check-out</p>
+                          <p className="font-semibold text-[hsl(24,30%,15%)]">
+                            {formatDate(new Date(new Date(booking.bookingDate).getTime() + 24 * 60 * 60 * 1000))} at 9:00 AM
                           </p>
                         </div>
                       </div>
