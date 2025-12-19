@@ -12,7 +12,7 @@ const About = () => {
     { icon: Shield, text: '24*7 cctv camera Security' },
     { icon: Car, text: 'large parking area' },
     { icon: Toilet, text: '3 toilet rooms for women 2 toilet rooms for men' },
-    { icon: Flame, text: 'fire camps (350/- applicable)' },
+    { icon: Flame, text: 'fire camps (Additional)' },
     { icon: Mountain, text: 'Beautiful araku nature view' },
   ];
 

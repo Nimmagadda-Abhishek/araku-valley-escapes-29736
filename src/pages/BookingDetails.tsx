@@ -260,6 +260,10 @@ const BookingDetails = () => {
                       {new Date(bookingData.checkOut).toLocaleDateString()}
                     </div>
                     <div className="text-sm mb-2">
+                      <strong>Times:</strong>{' '}
+                      Check-in: {bookingData.checkInTime || '16:00'} — Check-out: {bookingData.checkOutTime || '09:00'}
+                    </div>
+                    <div className="text-sm mb-2">
                       <strong>Tents:</strong> {bookingData.selectedTents?.length || 0} — {bookingData.selectedTents?.join(', ') || '—'}
                     </div>
                     <div className="text-sm mb-2">

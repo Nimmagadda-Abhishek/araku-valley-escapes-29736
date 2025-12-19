@@ -1,1 +1,6 @@
-- [x] Edit Hero.tsx to increase font size of "Araku Peace Camping Tents" text in mobile view
+- [x] Add state for checkInTime and checkOutTime with defaults (16:00 and 09:00)
+- [x] Add time input fields for check-in and check-out in Booking.tsx
+- [x] Update handleCheckAvailability to include times in localStorage
+- [x] Update BookingDetails.tsx to display times in summary
+- [x] API call doesn't need times for availability check
+- [x] Test the changes - App running successfully on http://localhost:8081/

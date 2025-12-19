@@ -75,6 +75,8 @@ const Booking = () => {
   const { toast } = useToast();
   const [checkIn, setCheckIn] = useState('');
   const [checkOut, setCheckOut] = useState('');
+  const [checkInTime, setCheckInTime] = useState('16:00');
+  const [checkOutTime, setCheckOutTime] = useState('09:00');
   const [guests, setGuests] = useState('2');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -160,6 +162,8 @@ const Booking = () => {
         JSON.stringify({
           checkIn,
           checkOut,
+          checkInTime,
+          checkOutTime,
           guests: parseInt(guests, 10),
           availabilityData: data,
         })
@@ -241,6 +245,42 @@ const Booking = () => {
                 value={checkOut}
                 onChange={(e) => setCheckOut(e.target.value)}
                 min={checkIn || new Date().toISOString().split('T')[0]}
+                className="text-base"
+              />
+            </div>
+
+            {/* Check-in Time */}
+            <div>
+              <Label
+                htmlFor="checkInTime"
+                className="text-base mb-2 flex items-center gap-2"
+              >
+                <Calendar size={18} className="text-primary" />
+                Check-in Time
+              </Label>
+              <Input
+                id="checkInTime"
+                type="time"
+                value={checkInTime}
+                onChange={(e) => setCheckInTime(e.target.value)}
+                className="text-base"
+              />
+            </div>
+
+            {/* Check-out Time */}
+            <div>
+              <Label
+                htmlFor="checkOutTime"
+                className="text-base mb-2 flex items-center gap-2"
+              >
+                <Calendar size={18} className="text-primary" />
+                Check-out Time
+              </Label>
+              <Input
+                id="checkOutTime"
+                type="time"
+                value={checkOutTime}
+                onChange={(e) => setCheckOutTime(e.target.value)}
                 className="text-base"
               />
             </div>
