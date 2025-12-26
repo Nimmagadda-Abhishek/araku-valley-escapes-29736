@@ -80,8 +80,8 @@ const Booking = () => {
   const [guests, setGuests] = useState('2');
   const [isLoading, setIsLoading] = useState(false);
 
-  // Allowed months: Nov(10), Dec(11), Jan(0), Feb(1)
-  const allowedMonthIndexes = [10, 11, 0, 1];
+  // Allowed months: Nov(10), Dec(11), Jan(0)
+  const allowedMonthIndexes = [10, 11, 0];
 
   // Parse YYYY-MM-DD -> local Date at midnight (avoids timezone shifts)
   const parseLocalDate = (isoDateStr) => {
@@ -93,7 +93,7 @@ const Booking = () => {
     return new Date(y, m - 1, d);
   };
 
-  // Return true only if every day in range [startIso, endIso] has month in allowedMonthIndexes
+  // Return true only if every day in range [startIso, endIso] has month in allowedMonthIndexes and for Jan, day <= 5
   const rangeIsInAllowedMonths = (startIso, endIso) => {
     const s = parseLocalDate(startIso);
     const e = parseLocalDate(endIso);
@@ -101,8 +101,14 @@ const Booking = () => {
     if (s > e) return false;
 
     for (let d = new Date(s); d <= e; d.setDate(d.getDate() + 1)) {
-      if (!allowedMonthIndexes.includes(d.getMonth())) {
-        // debug: console.debug('out-of-season day:', d.toISOString(), 'month:', d.getMonth());
+      const month = d.getMonth();
+      if (!allowedMonthIndexes.includes(month)) {
+        // debug: console.debug('out-of-season day:', d.toISOString(), 'month:', month);
+        return false;
+      }
+      // For January (month 0), check day <= 5
+      if (month === 0 && d.getDate() > 5) {
+        // debug: console.debug('out-of-season day:', d.toISOString(), 'day:', d.getDate());
         return false;
       }
     }
@@ -131,12 +137,12 @@ const Booking = () => {
       return;
     }
 
-    // Season check: every day must be in Nov/Dec/Jan/Feb
+    // Season check: every day must be in Nov/Dec/Jan (up to Jan 5)
     const inSeason = rangeIsInAllowedMonths(checkIn, checkOut);
     if (!inSeason) {
       toast({
         title: 'Seasonal closure',
-        description: 'Tents are available only during November, December, January and February. Please pick dates within those months.',
+        description: 'Tents are available only during November, December, and January 1-5. Please pick dates within those periods.',
         variant: 'destructive',
       });
       return; // IMPORTANT: do not call API if out of season
