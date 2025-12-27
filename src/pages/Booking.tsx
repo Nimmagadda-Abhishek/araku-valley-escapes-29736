@@ -215,6 +215,9 @@ const Booking = () => {
           <h1 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-center whitespace-nowrap mb-8 text-foreground">
             Plan Your Escape
           </h1>
+          <h1 className="font-display text-sm sm:text-lg md:text-xl text-center whitespace-nowrap mb-8 text-foreground">
+            Check in tims from 4:00 PM, Check out time by 9:00 AM
+          </h1>
 
           <div className="space-y-6">
             {/* Check-in Date */}
@@ -256,40 +259,6 @@ const Booking = () => {
             </div>
 
             {/* Check-in Time */}
-            <div>
-              <Label
-                htmlFor="checkInTime"
-                className="text-base mb-2 flex items-center gap-2"
-              >
-                <Calendar size={18} className="text-primary" />
-                Check-in Time
-              </Label>
-              <Input
-                id="checkInTime"
-                type="time"
-                value={checkInTime}
-                onChange={(e) => setCheckInTime(e.target.value)}
-                className="text-base"
-              />
-            </div>
-
-            {/* Check-out Time */}
-            <div>
-              <Label
-                htmlFor="checkOutTime"
-                className="text-base mb-2 flex items-center gap-2"
-              >
-                <Calendar size={18} className="text-primary" />
-                Check-out Time
-              </Label>
-              <Input
-                id="checkOutTime"
-                type="time"
-                value={checkOutTime}
-                onChange={(e) => setCheckOutTime(e.target.value)}
-                className="text-base"
-              />
-            </div>
 
             {/* Number of Guests */}
             
