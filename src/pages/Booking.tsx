@@ -216,7 +216,7 @@ const Booking = () => {
             Plan Your Escape
           </h1>
           <h1 className="font-display text-sm sm:text-lg md:text-xl text-center whitespace-nowrap mb-8 text-foreground">
-            Check in tims from 4:00 PM, Check out time by 9:00 AM
+            Check in from 4:00 PM, Check out by 9:00 AM
           </h1>
 
           <div className="space-y-6">
